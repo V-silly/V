@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V OS</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+  <audio id="tabsound" src="assets\sounds\virtual_vibes-glitch-sound-effect-hd-379466_[cut_1sec].mp3"></audio>
+  <div id="glitchOverlay" class="glitch-overlay" style="display:none;"></div>
+
+<canvas id="matrix"></canvas>
+
+<audio id="bgmusic" loop>
+  <source src="assets\sounds\humanstudioedm-cyberpunk-techno-510219 (1).mp3" type="audio/mpeg">
+</audio>
+
+<div class="topbar glow">
+  root@V:~$ ./system
+  <button onclick="toggleMusic()" style="float:right">🔊</button>
+</div>
+
+<div class="container">
+
+<div class="sidebar">
+  <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHN0Y2J0cDdqaGhrYmNodnluZjBrZDU1M210bHl2NjRxNHAwMHN0NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/sBffRwz30Z81xlBw4i/giphy.gif">
+  <button onclick="showTab('diario')">Diário</button>
+  <button onclick="showTab('jogos')">Jogos</button>
+  <button onclick="showTab('musicas')">Músicas</button>
+  <button onclick="showTab('filmes')">Filmes/Séries</button>
+  <button onclick="showTab('patches')">Patches</button>
+  <button onclick="showTab('sobre')">Sobre</button>
+</div>
+
+<div class="main">
+
+<div id="diario">
+  <h2 class="typing" data-text="[DIÁRIO]"></h2>
+
+  <!-- Editar diario aqui -->
+  <div class="entry">
+    <b>Dia 01 - 12:30</b><br>
+    <b>test</b>
+    <p class="glitch">gato alien muito foda...</p>
+    <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZGpnZTJvbG5xMHp5ZW9rcHhlOTdkeWo5cWRsanFuZDluZzQ3cHp1cyZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/bn0lwVwfVaLb6eCGGG/giphy.gif" width="200">
+  </div>
+  <div class="entry">
+    <b class="data"></b><br>
+    <b>test 2</b>
+    <p>oi elisna...</p>
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTk2MnlwNzJyZnF5emxjb3hsOHRyMTM0bGZndnA1ZTR1OTF6dGIxYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/tzfGJfLAofw0aJaLTZ/giphy.gif" width="200">
+  </div>
+  
+
+</div>
+
+<div id="jogos" class="hidden">
+  <h2 class="typing" data-text="[JOGOS]"></h2>
+  <!-- jogos aqui -->
+  <div class="entry">
+    <b class="data"></b><br>
+    <b>Cyberpunk 2077</b>
+    <p>legal...</p>
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzIycHk2NGxxOGh6dXNmY2c2d2R1NWd4eTVvNTN6bnEyZmd2ZmJ4NiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/fA7rLtaJDIWEzU57CT/giphy.gif" width="200">
+  </div>
+
+</div>
+
+<div id="musicas" class="hidden">
+  <h2 class="typing" data-text="[MÚSICAS]"></h2>
+  <!-- Editar musicas aqui -->
+
+</div>
+
+<div id="filmes" class="hidden">
+  <h2 class="typing" data-text="[FILMES/SÉRIES]"></h2>
+  <!-- Editar filmes aqui -->
+
+</div>
+
+<div id="patches" class="hidden">
+  <h2 class="typing" data-text="[PATCHES]"></h2>
+  <!-- Editar patches aqui -->
+  <div class="entry">Patch 1 - testando gifs e imagens</div>
+  <div class="entry">Patch 2 - limpando o código do site</div>
+  <div class="entry">Patch 3 - Adicionei uma musiquinha</div>
+  <div class="entry">Patch 4 - Nqvpvbanqb Ravtznf ab fvgr 13</div>
+  <div class="entry">Patch 5 - Adicionado som entre abas</div>
+</div>
+
+<div id="sobre" class="hidden">
+  <h2 class="typing" data-text="[SOBRE]"></h2>
+  <div class="entry">
+    Nome: Vinicius<br>
+    Status: Online<br>
+    Dormindo.
+  </div>
+</div>
+
+</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+. TEXTO NORMAL
+<p>texto comum</p>
+<h2>Título</h2>
+
+TEXTO COM DIGITAÇÃO (typing)
+<h2 class="typing" data-text="[DIÁRIO]"></h2>
+
+TEXTO COM GLITCH SIMPLES
+<p class="glitch">gato alien muito foda...</p>
+
+TEXTO COM GLITCH FORTE (cortado)
+<p class="glitch-strong" data-text="gato alien muito foda...">
+  gato alien muito foda...
+</p>
+
+TYPING + GLITCH (melhor combinação)
+<h2 class="typing glitch" data-text="[JOGOS]"></h2>
+
+TYPING + GLITCH FORTE (outra opção)
+<h2 class="typing glitch-strong" data-text="[FILMES]">[FILMES]</h2>
+
+TEXTO COM BRILHO (glow)
+<p class="glow">texto brilhando</p>
+
+DATA AUTOMÁTICA
+<b class="data"></b>
+
+TEXTO DE TERMINAL
+<div class="topbar glow">
+  root@V:~$ comando
+</div>
+
+EXEMPLO 
+
+<div class="entry">
+  <b class="data"></b><br>
+  <b class="glitch">Cyberpunk 2077</b>
+  <p class="glow">legal...</p>
+</div>
