@@ -1,3 +1,6 @@
+window.handleTermKey = window.handleTermKey || function() {};
+window.filterDiary = window.filterDiary || function() {};
+
 document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================
