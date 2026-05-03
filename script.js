@@ -5,14 +5,16 @@ function atualizarDatas() {
   const elementos = document.querySelectorAll('.data');
 
   elementos.forEach(el => {
-    const agora = new Date();
+    const customDate = el.getAttribute("data-date");
 
-    const dia = String(agora.getDate()).padStart(2, '0');
-    const mes = String(agora.getMonth() + 1).padStart(2, '0');
-    const horas = String(agora.getHours()).padStart(2, '0');
-    const minutos = String(agora.getMinutes()).padStart(2, '0');
+    let data = customDate ? new Date(customDate) : new Date();
 
-    el.innerText = `Dia ${dia}/${mes} - ${horas}:${minutos}`;
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const horas = String(data.getHours()).padStart(2, '0');
+    const minutos = String(data.getMinutes()).padStart(2, '0');
+
+    el.innerText = `[LOG ${dia}/${mes} ${horas}:${minutos}]`;
   });
 }
 
