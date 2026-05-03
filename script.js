@@ -148,8 +148,27 @@ function triggerGlitch(duration = 1000) {
 }
 
 window.togglePlayer = function(id) {
+  const players = document.querySelectorAll('[id^="player"]');
+
+  players.forEach(p => {
+    if (p.id !== id) {
+      p.style.display = "none";
+    }
+  });
+
   const player = document.getElementById(id);
-  player.style.display = player.style.display === "none" ? "block" : "none";
+  const isOpen = player.style.display === "block";
+
+  player.style.display = isOpen ? "none" : "block";
+
+  if (!isOpen) {
+    triggerGlitch(300);
+
+    player.classList.add("player-glitch");
+    setTimeout(() => {
+      player.classList.remove("player-glitch");
+    }, 300);
+  }
 }
 
 startTyping();
