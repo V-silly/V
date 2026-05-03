@@ -147,6 +147,11 @@ function triggerGlitch(duration = 1000) {
   }, duration);
 }
 
+window.togglePlayer = function(id) {
+  const player = document.getElementById(id);
+  player.style.display = player.style.display === "none" ? "block" : "none";
+}
+
 startTyping();
 atualizarDatas();
 

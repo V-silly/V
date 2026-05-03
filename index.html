@@ -73,6 +73,24 @@
 <div id="musicas" class="hidden">
   <h2 class="typing" data-text="[MÚSICAS]"></h2>
   <!-- Editar musicas aqui -->
+   <div class="entry">
+  <b class="data"></b><br>
+  <p>After Dark - Mr kitty</p>
+  <p class="glow">uma boa musica para eu testar aqui...</p>
+
+  <button onclick="togglePlayer('player1')">▶ Ouvir</button>
+
+  <div id="player1" style="display:none; margin-top:10px;">
+    
+    <iframe data-testid="embed-iframe" 
+    style="border-radius:12px" 
+    src="https://open.spotify.com/embed/track/2LKOHdMsL0K9KwcPRlJK2v?utm_source=generator&theme=0" 
+    width="100%" height="352" frameborder="0" 
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+    loading="lazy"></iframe>
+
+  </div>
+</div>
 
 </div>
 
