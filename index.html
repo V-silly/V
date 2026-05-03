@@ -34,19 +34,40 @@
         <div class="wc-title">V</div>
         <div class="wc-sub">SISTEMA ONLINE</div>
         <button id="wcEnterBtn">ENTRAR &gt;&gt;</button>
-        <div class="wc-sysinfo">NODE: BR-SP-001 &nbsp;|&nbsp; ENC: AES-256 &nbsp;|&nbsp; BUILD: 0.7</div>
+        <div class="wc-sysinfo">NODE: BR-SP-001 &nbsp;|&nbsp; ENC: AES-256 &nbsp;|&nbsp; BUILD: 0.8</div>
       </div>
     </div>
   </div>
-  <!-- ===================== FIM WELCOME SCREEN ===================== -->
+
+
+  <!-- ===================== KONAMI EASTER EGG ===================== -->
+  <div id="konamiOverlay" class="konami-overlay hidden">
+    <div class="konami-box">
+      <div class="konami-title">// MODO DEUS ATIVADO //</div>
+      <div class="konami-msg">Você encontrou o código secreto.<br>Parabéns, hacker nerd.</div>
+      <pre class="konami-art">
+  ⠀⠀⢀⣤⣤⣤⡀⠀
+  ⠀⢀⣿⣿⣿⣿⣿⡀
+  ⠀⠀⠙⠛⠛⠛⠋⠀  ACCESS
+  ██████████  LEVEL
+  ██  GOD  ██  9000
+  ██████████
+      </pre>
+      <button onclick="closeKonami()">FECHAR TERMINAL</button>
+    </div>
+  </div>
 
   <audio id="tabsound" src="assets/sounds/virtual_vibes-glitch-sound-effect-hd-379466_[cut_1sec].mp3"></audio>
   <audio id="bgmusic" loop>
     <source src="assets/sounds/humanstudioedm-cyberpunk-techno-510219 (1).mp3" type="audio/mpeg">
   </audio>
+  <audio id="konamisfx" src="assets/sounds/konami.mp3"></audio>
 
   <div id="glitchOverlay" class="glitch-overlay" style="display:none;"></div>
   <canvas id="matrix"></canvas>
+
+  <!-- PIXEL BREAK OVERLAY -->
+  <div id="pixelBreak" class="pixel-break hidden"></div>
 
   <div class="topbar glow">
     root@V:~$ ./system
@@ -61,36 +82,50 @@
       <button onclick="showTab('jogos')">Jogos</button>
       <button onclick="showTab('musicas')">Músicas</button>
       <button onclick="showTab('filmes')">Filmes/Séries</button>
+      <button onclick="showTab('terminal')">Terminal</button>
+      <button onclick="showTab('links')">Links</button>
       <button onclick="showTab('patches')">Patches</button>
       <button onclick="showTab('sobre')">Sobre</button>
     </div>
 
     <div class="main">
 
+      <!-- ===== DIÁRIO ===== -->
       <div id="diario">
         <h2 class="typing" data-text="[DIÁRIO]"></h2>
 
-        <!-- Editar diario aqui -->
-        <div class="entry">
-          <b class="data" data-date="2026-05-03T12:36"></b><br>
-          <p class="glow">Deixando online pelo git</p>
-          <p class="glitch">Oi elisna funcionou? testa ai pra ver se sai musica ali em cima no canto superior direito...</p>
-          <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTk2MnlwNzJyZnF5emxjb3hsOHRyMTM0bGZndnA1ZTR1OTF6dGIxYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/tzfGJfLAofw0aJaLTZ/giphy.gif" width="200" alt="">
+        <!-- GREP search -->
+        <div class="grep-bar">
+          <span class="grep-prefix">grep -i "</span>
+          <input type="text" id="grepInput" placeholder="buscar..." oninput="filterDiary()" autocomplete="off">
+          <span class="grep-suffix">" ./diario</span>
+          <span id="grepCount" class="grep-count"></span>
         </div>
 
-        <div class="entry">
-          <b class="data" data-date="2026-05-03T12:38"></b><br>
-          <p class="glow">GATO FODAAAAA</p>
-          <p>QUE GATO FODA</p>
-          <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZGpnZTJvbG5xMHp5ZW9rcHhlOTdkeWo5cWRsanFuZDluZzQ3cHp1cyZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/bn0lwVwfVaLb6eCGGG/giphy.gif" width="200" alt="">
+        <div id="diaryEntries">
+          <div class="entry" data-search="deixando online git">
+            <b class="data" data-date="2026-05-03T12:36"></b><br>
+            <p class="glow">Deixando online pelo git</p>
+            <p class="glitch">Oi elisna funcionou? testa ai pra ver se sai musica ali em cima no canto superior direito...</p>
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTk2MnlwNzJyZnF5emxjb3hsOHRyMTM0bGZndnA1ZTR1OTF6dGIxYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/tzfGJfLAofw0aJaLTZ/giphy.gif" width="200" alt="">
+          </div>
+
+          <div class="entry" data-search="gato foda">
+            <b class="data" data-date="2026-05-03T12:38"></b><br>
+            <p class="glow">GATO FODAAAAA</p>
+            <p>QUE GATO FODA</p>
+            <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZGpnZTJvbG5xMHp5ZW9rcHhlOTdkeWo5cWRsanFuZDluZzQ3cHp1cyZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/bn0lwVwfVaLb6eCGGG/giphy.gif" width="200" alt="">
+          </div>
         </div>
 
+        <div id="grepNoResult" class="grep-noresult hidden">
+          <span>grep: nenhum resultado encontrado para esse padrão.</span>
+        </div>
       </div>
 
+      <!-- ===== JOGOS ===== -->
       <div id="jogos" class="hidden">
         <h2 class="typing" data-text="[JOGOS]"></h2>
-
-        <!-- Editar jogos aqui -->
         <div class="entry">
           <b class="data" data-date="2026-05-03T12:40"></b><br>
           <p>Cyberpunk 2077</p>
@@ -98,26 +133,22 @@
           <img src="https://i.pinimg.com/736x/28/17/44/2817445d54e64d42da7e6a2f8258a7cb.jpg" width="300" alt="Cyberpunk 2077">
           <img src="https://i.pinimg.com/736x/9f/2a/81/9f2a81fe182b1c698a0482dbac68e251.jpg" width="300" alt="Cyberpunk 2077">
         </div>
-
       </div>
 
+      <!-- ===== MÚSICAS ===== -->
       <div id="musicas" class="hidden">
         <h2 class="typing" data-text="[MÚSICAS]"></h2>
-
-        <!-- Editar musicas aqui -->
         <div class="entry">
           <b class="data" data-date="2026-05-03T12:42"></b><br>
           <p>After Dark - Mr Kitty</p>
           <p class="glow">uma boa musica para eu testar aqui...</p>
           <button onclick="togglePlayer('player1')">▶ Ouvir</button>
           <div id="player1" style="display:none; margin-top:10px;">
-            <iframe
-              style="border-radius:12px"
+            <iframe style="border-radius:12px"
               src="https://open.spotify.com/embed/track/2LKOHdMsL0K9KwcPRlJK2v?utm_source=generator&theme=0"
               width="100%" height="352" frameborder="0"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              title="After Dark - Mr Kitty no Spotify">
+              loading="lazy" title="After Dark - Mr Kitty no Spotify">
             </iframe>
           </div>
         </div>
@@ -128,23 +159,19 @@
           <p class="glow">Cara... que musica foda.</p>
           <button onclick="togglePlayer('player2')">▶ Ouvir</button>
           <div id="player2" style="display:none; margin-top:10px;">
-            <iframe
-              style="border-radius:12px"
+            <iframe style="border-radius:12px"
               src="https://open.spotify.com/embed/track/6RK3IsiUW6YaSMEodbO4tk?utm_source=generator&theme=0"
               width="100%" height="352" frameborder="0"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              title="Solitude - Felsmann + Tiley Reinterpretation no Spotify">
+              loading="lazy" title="Solitude - Felsmann + Tiley Reinterpretation no Spotify">
             </iframe>
           </div>
         </div>
-
       </div>
 
+      <!-- ===== FILMES ===== -->
       <div id="filmes" class="hidden">
         <h2 class="typing" data-text="[FILMES/SÉRIES]"></h2>
-
-        <!-- Editar filmes aqui -->
         <div class="entry">
           <b class="data" data-date="2026-05-03T13:46"></b><br>
           <p>The Office</p>
@@ -152,13 +179,70 @@
           <img src="https://i.pinimg.com/1200x/f4/f5/e8/f4f5e89bef2f628ff34445cd1f4b8e88.jpg" width="200" alt="The Office">
           <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmFha3NwMzl3a3MzeHV3bWRpM3k4ZWkzamFwZmIzaTZ2b3Jva21pMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/i79P9wUfnmPyo/giphy.gif" width="475" alt="">
         </div>
-
       </div>
 
+      <!-- ===== TERMINAL ===== -->
+      <div id="terminal" class="hidden">
+        <h2 class="typing" data-text="[TERMINAL]"></h2>
+        <div class="entry terminal-box">
+          <div id="termOutput"></div>
+          <div class="term-input-row">
+            <span class="term-prompt">root@V:~$&nbsp;</span>
+            <input type="text" id="termInput" placeholder="digite um comando..." autocomplete="off" onkeydown="handleTermKey(event)">
+          </div>
+        </div>
+        <div class="entry" style="font-size:11px; color: var(--green-dim);">
+          dica: tente <code>help</code> para ver os comandos disponíveis
+        </div>
+      </div>
+
+      <!-- ===== LINKS ===== -->
+      <div id="links" class="hidden">
+        <h2 class="typing" data-text="[LINKS]"></h2>
+        <div class="entry links-grid">
+          <!-- Editar links aqui -->
+          <a class="link-card" href="https://github.com/V-silly" target="_blank" rel="noopener">
+            <span class="link-icon">⌥</span>
+            <span class="link-name">GitHub</span>
+            <span class="link-desc">meu código / projetos</span>
+            <span class="link-arrow">→</span>
+          </a>
+          <a class="link-card" href="https://open.spotify.com/user/31l42pbcsc33efqajc3blbo7uaoi" target="_blank" rel="noopener">
+            <span class="link-icon">♪</span>
+            <span class="link-name">Spotify</span>
+            <span class="link-desc">o que eu ouço</span>
+            <span class="link-arrow">→</span>
+          </a>
+          <a class="link-card" href="https://steamcommunity.com/id/code502/" target="_blank" rel="noopener">
+            <span class="link-icon">⎔</span>
+            <span class="link-name">Steam</span>
+            <span class="link-desc">onde eu perco tempo</span>
+            <span class="link-arrow">→</span>
+          </a>
+          <a class="link-card" href="https://www.instagram.com/vinicius_vprf/" target="_blank" rel="noopener">
+            <span class="link-icon">◈</span>
+            <span class="link-name">Instagram</span>
+            <span class="link-desc">Quase nunca online</span>
+            <span class="link-arrow">→</span>
+          </a>
+          <a class="link-card" href="https://www.youtube.com/@kmw_v" target="_blank" rel="noopener">
+            <span class="link-icon">▶</span>
+            <span class="link-name">YouTube</span>
+            <span class="link-desc">Tem alguns videos mas ta no não listado :O </span>
+            <span class="link-arrow">→</span>
+          </a>
+          <a class="link-card" href="https://www.youtube.com/watch?v=K-2fCuI2UBA" target="_blank" rel="noopener">
+            <span class="link-icon">◉</span>
+            <span class="link-name">?????</span>
+            <span class="link-desc">?????</span>
+            <span class="link-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ===== PATCHES ===== -->
       <div id="patches" class="hidden">
         <h2 class="typing" data-text="[PATCHES]"></h2>
-
-        <!-- Editar patches aqui -->
         <div class="entry">Patch 1 - testando gifs e imagens</div>
         <div class="entry">Patch 2 - limpando o código do site</div>
         <div class="entry">Patch 3 - Adicionei uma musiquinha</div>
@@ -167,8 +251,10 @@
         <div class="entry">Patch 6 - Musica e efeitos e deixando o site online</div>
         <div class="entry">Patch 7 - Refatoração e correção do HTML/CSS/JS</div>
         <div class="entry">Patch 8 - Tela de boas-vindas integrada</div>
+        <div class="entry">Patch 9 - Terminal, Snake, Links, Quote screen, Konami, grep, Matrix JP, pixel-break</div>
       </div>
 
+      <!-- ===== SOBRE ===== -->
       <div id="sobre" class="hidden">
         <h2 class="typing" data-text="[SOBRE]"></h2>
         <div class="entry">

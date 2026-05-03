@@ -12,9 +12,7 @@
 /* =====================
    BASE
    ===================== */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -28,8 +26,7 @@ body {
    ===================== */
 canvas {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   z-index: 0;
   opacity: 0.2;
   pointer-events: none;
@@ -47,7 +44,7 @@ canvas {
   padding: 8px 14px;
   font-size: 14px;
   letter-spacing: 1px;
-  background: rgba(0, 0, 0, 0.92);
+  background: rgba(0,0,0,0.92);
   border-bottom: 1px solid var(--green);
 }
 
@@ -87,7 +84,7 @@ canvas {
   flex-direction: column;
   gap: 5px;
   padding: 10px;
-  background: rgba(0, 0, 0, 0.92);
+  background: rgba(0,0,0,0.92);
   border-right: 1px solid var(--green);
   overflow-y: auto;
 }
@@ -128,7 +125,7 @@ canvas {
   overflow-y: auto;
 }
 
-.hidden { display: none; }
+.hidden { display: none !important; }
 
 /* =====================
    ENTRIES
@@ -141,9 +138,7 @@ canvas {
   line-height: 1.6;
 }
 
-.entry p {
-  margin: 4px 0;
-}
+.entry p { margin: 4px 0; }
 
 /* =====================
    BOTÕES GERAIS
@@ -157,9 +152,7 @@ button {
   padding: 4px 10px;
 }
 
-button:hover {
-  background: var(--green-dark);
-}
+button:hover { background: var(--green-dark); }
 
 /* =====================
    INPUTS
@@ -194,87 +187,230 @@ input {
   animation: glitch 0.4s infinite;
 }
 
-.glitch-strong {
-  position: relative;
-  color: var(--green);
-}
-
-.glitch-strong::before,
-.glitch-strong::after {
-  content: attr(data-text);
-  position: absolute;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-}
-
-.glitch-strong::before {
-  color: red;
-  animation: glitchTop 0.3s infinite;
-  clip-path: inset(0 0 50% 0);
-}
-
-.glitch-strong::after {
-  color: blue;
-  animation: glitchBottom 0.3s infinite;
-  clip-path: inset(50% 0 0 0);
-}
-
 /* =====================
    GLITCH OVERLAY / SCREEN
    ===================== */
 .glitch-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   z-index: 999;
   pointer-events: none;
   background: repeating-linear-gradient(
     0deg,
-    rgba(0, 255, 0, 0.03),
-    rgba(0, 255, 0, 0.03) 2px,
-    transparent 2px,
-    transparent 4px
+    rgba(0,255,0,0.03), rgba(0,255,0,0.03) 2px,
+    transparent 2px, transparent 4px
   );
   mix-blend-mode: screen;
   animation: flicker 0.1s infinite;
 }
 
-.glitch-screen {
-  animation: glitchScreen 0.15s infinite;
-}
+.glitch-screen { animation: glitchScreen 0.15s infinite; }
 
 /* =====================
-   SCANLINES (body::after)
+   SCANLINES
    ===================== */
 body::after {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   z-index: 1;
   pointer-events: none;
   background: repeating-linear-gradient(
     to bottom,
-    rgba(0, 255, 0, 0.02),
-    rgba(0, 255, 0, 0.02) 1px,
-    transparent 1px,
-    transparent 3px
+    rgba(0,255,0,0.02), rgba(0,255,0,0.02) 1px,
+    transparent 1px, transparent 3px
   );
   mix-blend-mode: overlay;
 }
 
 /* =====================
-   TERMINAL (reservado para uso futuro)
+   PIXEL BREAK TRANSITION
    ===================== */
-.terminal {
-  margin-top: 20px;
-  border-top: 1px solid var(--green);
-  padding-top: 10px;
+.pixel-break {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 9000;
+  pointer-events: none;
+}
+
+.px-cell {
+  position: absolute;
+  background: var(--green);
+  opacity: 0;
+  animation: pxFlash 0.35s ease forwards;
+}
+
+@keyframes pxFlash {
+  0%   { opacity: 0; }
+  30%  { opacity: 0.7; }
+  60%  { opacity: 0.3; transform: scale(1.1) skewX(2deg); }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* =====================
+   GREP SEARCH
+   ===================== */
+.grep-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--green-dim);
+  padding: 7px 12px;
+  margin-bottom: 12px;
+  background: rgba(0,20,0,0.6);
+  font-size: 13px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.grep-prefix, .grep-suffix {
+  color: var(--green-dim);
+  white-space: nowrap;
+}
+
+.grep-bar input {
+  width: 180px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--green-dim);
+  padding: 0 4px;
+  background: transparent;
+}
+
+.grep-count {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--green-dim);
+}
+
+.grep-noresult {
+  border: 1px dashed #330000;
+  padding: 10px;
+  color: #ff0033;
+  font-size: 12px;
+}
+
+/* =====================
+   TERMINAL FAKE
+   ===================== */
+.terminal-box {
+  display: flex;
+  flex-direction: column;
+  height: 360px;
+  padding: 10px;
+  background: rgba(0,8,0,0.95);
+  overflow: hidden;
+}
+
+#termOutput {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.7;
+  padding-right: 4px;
+}
+
+.term-line { color: var(--green); word-break: break-all; }
+.term-line.t-warn { color: #ff6600; }
+
+.t-cmd { color: #00ffff; }
+.t-prompt { color: var(--green-dim); }
+
+.term-input-row {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #001a00;
+  padding-top: 6px;
+  margin-top: 6px;
+}
+
+.term-prompt { color: var(--green-dim); font-size: 13px; white-space: nowrap; }
+
+.term-input-row input {
+  flex: 1;
+  font-size: 13px;
+  padding: 0;
+  caret-color: var(--green);
+}
+
+
+
+/* =====================
+   LINKS
+   ===================== */
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+  padding: 10px;
+}
+
+.link-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--green-dim);
+  background: rgba(0,10,0,0.8);
+  color: var(--green);
+  text-decoration: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.link-card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--green-dim);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.link-card:hover {
+  border-color: var(--green);
+  background: var(--green-dark);
+  box-shadow: 0 0 14px rgba(0,255,0,0.2);
+}
+
+.link-card:hover::before {
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+}
+
+.link-icon {
+  font-size: 20px;
+  min-width: 26px;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.link-name {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.link-desc {
+  font-size: 11px;
+  color: var(--green-dim);
+  margin-left: auto;
+  max-width: 120px;
+  text-align: right;
+}
+
+.link-arrow {
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.link-card:hover .link-arrow {
+  opacity: 1;
+  transform: translateX(3px);
 }
 
 /* =====================
@@ -295,12 +431,12 @@ body::after {
 
 @keyframes glitchScreen {
   0%   { transform: translate(0); }
-  15%  { transform: translate(-8px,  4px); }
-  30%  { transform: translate( 8px, -4px); }
-  45%  { transform: translate(-4px,  3px); }
-  60%  { transform: translate( 4px, -3px); }
-  75%  { transform: translate(-6px,  2px); }
-  90%  { transform: translate( 6px, -2px); }
+  15%  { transform: translate(-8px, 4px); }
+  30%  { transform: translate(8px, -4px); }
+  45%  { transform: translate(-4px, 3px); }
+  60%  { transform: translate(4px, -3px); }
+  75%  { transform: translate(-6px, 2px); }
+  90%  { transform: translate(6px, -2px); }
   100% { transform: translate(0); }
 }
 
@@ -309,19 +445,6 @@ body::after {
   50%  { opacity: 0.3; }
   100% { opacity: 0.1; }
 }
-
-@keyframes glitchTop {
-  0%   { transform: translate(0); }
-  50%  { transform: translate(-3px, -2px); }
-  100% { transform: translate(0); }
-}
-
-@keyframes glitchBottom {
-  0%   { transform: translate(0); }
-  50%  { transform: translate(3px, 2px); }
-  100% { transform: translate(0); }
-}
-
 
 /* =====================
    WELCOME SCREEN
@@ -353,7 +476,6 @@ body::after {
   z-index: 0;
   opacity: 0.15;
   pointer-events: none;
-  /* sobrescreve o seletor global canvas */
   width: 100% !important;
   height: 100% !important;
 }
@@ -379,15 +501,11 @@ body::after {
   animation: wcBeam 5s linear infinite;
 }
 
-@keyframes wcBeam {
-  0%   { top: 0; }
-  100% { top: 100%; }
-}
+@keyframes wcBeam { 0% { top: 0; } 100% { top: 100%; } }
 
 .wc-corner {
   position: absolute;
-  width: 22px;
-  height: 22px;
+  width: 22px; height: 22px;
   border-color: var(--green);
   border-style: solid;
   z-index: 3;
@@ -419,7 +537,6 @@ body::after {
   padding: 20px 0 28px;
 }
 
-/* linhas de boot */
 .wc-line {
   display: flex;
   align-items: center;
@@ -470,7 +587,6 @@ body::after {
   transition: width 0.08s linear;
 }
 
-/* bloco de boas-vindas */
 #wcWelcome {
   text-align: center;
   opacity: 0;
@@ -541,4 +657,60 @@ body::after {
   letter-spacing: 1px;
   opacity: 0;
   transition: opacity 0.5s;
+}
+
+
+
+/* =====================
+   KONAMI EASTER EGG
+   ===================== */
+.konami-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 99999;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.konami-box {
+  border: 2px solid var(--green);
+  box-shadow: 0 0 40px rgba(0,255,0,0.3);
+  padding: 32px 48px;
+  text-align: center;
+  background: #000;
+  max-width: 420px;
+}
+
+.konami-title {
+  font-family: 'Orbitron', var(--font-main);
+  font-size: 16px;
+  color: var(--green);
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+  animation: glitch 0.5s infinite;
+}
+
+.konami-msg {
+  font-size: 13px;
+  color: var(--green-dim);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.konami-art {
+  font-size: 11px;
+  color: var(--green);
+  line-height: 1.4;
+  text-align: left;
+  display: inline-block;
+  margin: 0 0 20px;
+}
+
+.konami-box button {
+  letter-spacing: 2px;
+  font-size: 11px;
+  padding: 8px 24px;
 }
