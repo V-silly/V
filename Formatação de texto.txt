@@ -41,3 +41,11 @@ EXEMPLO
 git add .
 git commit -m "atualização"
 git push
+
+Exemplo de postagem
+
+<div class="entry">
+    <b class="data"></b><br>
+    <p>The Office</p>
+    <p>Definitivamente uma das melhores séries que ja assiti na vida...</p>
+    <img src="" width="200">
