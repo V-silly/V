@@ -74,7 +74,7 @@ window.showTab = function(tab) {
     sound.play().catch(() => {});
   }
 
-  // 💥 GLITCH
+  //GLITCH
   triggerGlitch(500);
 
   setTimeout(() => {
