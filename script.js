@@ -520,7 +520,375 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.closeKonami = function () {
     document.getElementById("konamiOverlay").classList.add("hidden");
+    // Fecha o overlay e ativa o modo destruição após um delay dramático
+    setTimeout(function() {
+      triggerGlitch(400);
+      setTimeout(activateDestructionMode, 500);
+    }, 300);
   };
+
+
+  /* =====================
+     DESTRUCTION MODE
+     ===================== */
+  var destructionActive = false;
+  var destroyedCount = 0;
+  var shotsFired = 0;
+  var ammoLeft = 30;
+  var shootSfxPool = [];
+  var SHOOT_SFX_COUNT = 4;
+
+  // Pre-carrega pool de sons de tiro (AudioContext para gerarmos beeps sintéticos sem arquivo externo)
+  var audioCtx = null;
+
+  function getAudioCtx() {
+    if (!audioCtx) {
+      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+    }
+    return audioCtx;
+  }
+
+  function playShootSound() {
+    var ctx = getAudioCtx();
+    if (!ctx) return;
+    try {
+      // Cria um som de tiro sintético: burst de ruído curto com pitch descendente
+      var bufferSize = ctx.sampleRate * 0.08;
+      var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      var data = buffer.getChannelData(0);
+      for (var i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 2);
+      }
+      var source = ctx.createBufferSource();
+      source.buffer = buffer;
+
+      var gainNode = ctx.createGain();
+      gainNode.gain.setValueAtTime(0.35, ctx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+
+      var filter = ctx.createBiquadFilter();
+      filter.type = "bandpass";
+      filter.frequency.setValueAtTime(800, ctx.currentTime);
+      filter.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.08);
+      filter.Q.value = 0.5;
+
+      source.connect(filter);
+      filter.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      source.start();
+    } catch(e) {}
+  }
+
+  function playEmptySound() {
+    var ctx = getAudioCtx();
+    if (!ctx) return;
+    try {
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = "square";
+      osc.frequency.setValueAtTime(120, ctx.currentTime);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.1);
+    } catch(e) {}
+  }
+
+  function playReloadSound() {
+    var ctx = getAudioCtx();
+    if (!ctx) return;
+    try {
+      [0, 0.12, 0.25].forEach(function(t, i) {
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(300 + i * 150, ctx.currentTime + t);
+        gain.gain.setValueAtTime(0.1, ctx.currentTime + t);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.1);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + t);
+        osc.stop(ctx.currentTime + t + 0.1);
+      });
+    } catch(e) {}
+  }
+
+  function createCrosshair() {
+    var ch = document.createElement("div");
+    ch.id = "god-crosshair";
+    ch.innerHTML = '<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle cx="22" cy="22" r="11" stroke="#00ff00" stroke-width="1.5"/>' +
+      '<circle cx="22" cy="22" r="2.5" fill="#00ff00"/>' +
+      '<line x1="22" y1="2" x2="22" y2="13" stroke="#00ff00" stroke-width="1.5"/>' +
+      '<line x1="22" y1="31" x2="22" y2="42" stroke="#00ff00" stroke-width="1.5"/>' +
+      '<line x1="2" y1="22" x2="13" y2="22" stroke="#00ff00" stroke-width="1.5"/>' +
+      '<line x1="31" y1="22" x2="42" y2="22" stroke="#00ff00" stroke-width="1.5"/>' +
+      '<circle cx="22" cy="22" r="6" stroke="#00ff00" stroke-width="0.5" opacity="0.4"/>' +
+      '</svg>';
+    ch.style.cssText = "position:fixed;pointer-events:none;z-index:999998;transform:translate(-50%,-50%);left:-100px;top:-100px;transition:left 0.02s,top 0.02s;";
+    document.body.appendChild(ch);
+    return ch;
+  }
+
+  function createHUD() {
+    var hud = document.createElement("div");
+    hud.id = "destruction-hud";
+    hud.innerHTML =
+      '<div id="dhud-title">// MODO DEUS //</div>' +
+      '<div id="dhud-ammo">AMMO: <span id="dhud-ammo-n">30</span>/30</div>' +
+      '<div id="dhud-kills">DESTRUÍDOS: <span id="dhud-kills-n">0</span></div>' +
+      '<div id="dhud-shots">TIROS: <span id="dhud-shots-n">0</span></div>' +
+      '<div id="dhud-acc">PRECISÃO: <span id="dhud-acc-n">--%</span></div>' +
+      '<div id="dhud-hint">ESC = sair &nbsp;|&nbsp; R = recarregar</div>';
+    hud.style.cssText =
+      "position:fixed;bottom:20px;right:20px;z-index:999997;" +
+      "background:rgba(0,0,0,0.88);color:#00ff00;font-family:'Courier New',monospace;" +
+      "font-size:12px;padding:14px 18px;border:1px solid #00ff00;" +
+      "box-shadow:0 0 20px rgba(0,255,0,0.3);line-height:2;letter-spacing:1px;min-width:200px;";
+    document.body.appendChild(hud);
+    document.getElementById("dhud-title").style.cssText =
+      "font-family:'Orbitron',monospace;font-size:10px;letter-spacing:4px;color:#00ff00;" +
+      "margin-bottom:6px;animation:glitch 0.6s infinite;border-bottom:1px solid #003300;padding-bottom:6px;";
+    document.getElementById("dhud-hint").style.cssText =
+      "font-size:10px;color:#005500;margin-top:4px;border-top:1px solid #001a00;padding-top:4px;";
+  }
+
+  function updateHUD() {
+    var ammoEl = document.getElementById("dhud-ammo-n");
+    var killsEl = document.getElementById("dhud-kills-n");
+    var shotsEl = document.getElementById("dhud-shots-n");
+    var accEl = document.getElementById("dhud-acc-n");
+    if (!ammoEl) return;
+    ammoEl.textContent = ammoLeft;
+    killsEl.textContent = destroyedCount;
+    shotsEl.textContent = shotsFired;
+    var acc = shotsFired > 0 ? Math.round((destroyedCount / shotsFired) * 100) : 0;
+    accEl.textContent = acc + "%";
+    // Cor do ammo muda conforme esvazia
+    var ammoParent = document.getElementById("dhud-ammo");
+    if (ammoLeft <= 5) ammoParent.style.color = "#ff0033";
+    else if (ammoLeft <= 10) ammoParent.style.color = "#ff6600";
+    else ammoParent.style.color = "#00ff00";
+  }
+
+  function addBulletHole(x, y) {
+    var hole = document.createElement("div");
+    hole.style.cssText =
+      "position:fixed;left:" + x + "px;top:" + y + "px;" +
+      "width:14px;height:14px;border-radius:50%;" +
+      "background:radial-gradient(circle,#000 35%,#222 55%,transparent 70%);" +
+      "border:1.5px solid #003300;pointer-events:none;" +
+      "transform:translate(-50%,-50%);z-index:99990;";
+    // Rachaduras ao redor
+    for (var i = 0; i < 5; i++) {
+      var crack = document.createElement("div");
+      var angle = (360 / 5) * i + Math.random() * 20;
+      var len = 8 + Math.random() * 10;
+      crack.style.cssText =
+        "position:absolute;left:50%;top:50%;width:" + len + "px;height:1px;" +
+        "background:#003300;transform-origin:0 50%;transform:rotate(" + angle + "deg);opacity:0.7;";
+      hole.appendChild(crack);
+    }
+    document.body.appendChild(hole);
+    setTimeout(function() {
+      if (hole.parentNode) hole.parentNode.removeChild(hole);
+    }, 8000);
+  }
+
+  function spawnFragments(x, y, color) {
+    color = color || "#00ff00";
+    for (var i = 0; i < 10; i++) {
+      var f = document.createElement("div");
+      var size = 4 + Math.random() * 6;
+      var angle = (Math.PI * 2 / 10) * i + Math.random() * 0.5;
+      var dist = 30 + Math.random() * 60;
+      var tx = Math.cos(angle) * dist;
+      var ty = Math.sin(angle) * dist;
+      f.style.cssText =
+        "position:fixed;left:" + x + "px;top:" + y + "px;" +
+        "width:" + size + "px;height:" + size + "px;" +
+        "background:" + color + ";border-radius:2px;pointer-events:none;z-index:99995;" +
+        "transition:transform 0.5s ease,opacity 0.5s ease;opacity:0.9;";
+      document.body.appendChild(f);
+      (function(el, dtx, dty) {
+        requestAnimationFrame(function() {
+          el.style.transform = "translate(" + dtx + "px," + dty + "px) rotate(" + (Math.random()*360) + "deg)";
+          el.style.opacity = "0";
+        });
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 600);
+      })(f, tx, ty);
+    }
+  }
+
+  function showKillMessage(x, y) {
+    var msgs = ["DESTRUÍDO", "ELIMINADO", "404 NOT FOUND", "DELETADO", "POOF", "KABOOM", "NULL", "SEGFAULT", "RIP"];
+    var msg = msgs[Math.floor(Math.random() * msgs.length)];
+    var el = document.createElement("div");
+    el.textContent = msg;
+    el.style.cssText =
+      "position:fixed;left:" + x + "px;top:" + (y - 20) + "px;" +
+      "color:#00ff00;font-family:'Courier New',monospace;font-size:12px;font-weight:bold;" +
+      "letter-spacing:2px;pointer-events:none;z-index:999996;" +
+      "text-shadow:0 0 8px #00ff00;transition:transform 0.6s ease,opacity 0.6s ease;";
+    document.body.appendChild(el);
+    requestAnimationFrame(function() {
+      el.style.transform = "translateY(-40px)";
+      el.style.opacity = "0";
+    });
+    setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 700);
+  }
+
+  function showReloadMsg() {
+    var el = document.createElement("div");
+    el.textContent = "// RECARREGANDO //";
+    el.style.cssText =
+      "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);" +
+      "color:#00ff00;font-family:'Orbitron',monospace;font-size:16px;letter-spacing:4px;" +
+      "pointer-events:none;z-index:999999;text-shadow:0 0 20px #00ff00;";
+    document.body.appendChild(el);
+    setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 800);
+  }
+
+  function activateDestructionMode() {
+    if (destructionActive) return;
+    destructionActive = true;
+    destroyedCount = 0;
+    shotsFired = 0;
+    ammoLeft = 30;
+
+    document.body.style.cursor = "none";
+    var crosshair = createCrosshair();
+    createHUD();
+    updateHUD();
+
+    // Mensagem de entrada
+    var introMsg = document.createElement("div");
+    introMsg.textContent = "// MODO DESTRUIÇÃO ATIVADO — CLIQUE PARA ATIRAR //";
+    introMsg.style.cssText =
+      "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);" +
+      "color:#00ff00;font-family:'Orbitron',monospace;font-size:14px;letter-spacing:3px;" +
+      "pointer-events:none;z-index:999999;text-shadow:0 0 20px #00ff00;text-align:center;";
+    document.body.appendChild(introMsg);
+    setTimeout(function() { if (introMsg.parentNode) introMsg.parentNode.removeChild(introMsg); }, 2000);
+
+    function onMouseMove(e) {
+      crosshair.style.left = e.clientX + "px";
+      crosshair.style.top  = e.clientY + "px";
+    }
+
+    function onShoot(e) {
+      // Ignora cliques no HUD e na mira
+      if (e.target.closest && e.target.closest("#destruction-hud")) return;
+
+      if (ammoLeft <= 0) {
+        playEmptySound();
+        var noAmmoEl = document.getElementById("dhud-ammo");
+        if (noAmmoEl) { noAmmoEl.style.animation = "glitch 0.2s 3"; }
+        return;
+      }
+
+      ammoLeft--;
+      shotsFired++;
+      playShootSound();
+
+      // Vibração da tela
+      document.body.style.transform = "translate(" + (Math.random()*4-2) + "px," + (Math.random()*4-2) + "px)";
+      setTimeout(function() { document.body.style.transform = ""; }, 60);
+
+      addBulletHole(e.clientX, e.clientY);
+      spawnFragments(e.clientX, e.clientY);
+
+      // Descobre o elemento alvo (ignora HUD, crosshair, canvas, body, html)
+      var ignore = ["god-crosshair","destruction-hud","matrix","welcomeMatrix","glitchOverlay","pixelBreak"];
+      var target = document.elementFromPoint(e.clientX, e.clientY);
+
+      var validTarget = target &&
+        target !== document.body &&
+        target !== document.documentElement &&
+        !ignore.some(function(id) { return target.id === id || (target.closest && target.closest("#destruction-hud")); }) &&
+        target.tagName !== "CANVAS";
+
+      if (validTarget) {
+        destroyedCount++;
+        showKillMessage(e.clientX, e.clientY);
+        // Anima a destruição
+        target.style.transition = "transform 0.25s ease, opacity 0.25s ease, filter 0.25s ease";
+        target.style.filter = "brightness(3) contrast(2)";
+        target.style.transform = "scale(0.85) skewX(" + (Math.random()*10-5) + "deg)";
+        target.style.opacity = "0";
+        setTimeout(function() {
+          if (target.parentNode) target.parentNode.removeChild(target);
+        }, 260);
+      }
+
+      updateHUD();
+
+      if (ammoLeft <= 0) {
+        setTimeout(function() {
+          var emptyEl = document.createElement("div");
+          emptyEl.textContent = "// SEM MUNIÇÃO — PRESSIONE R PARA RECARREGAR //";
+          emptyEl.style.cssText =
+            "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);" +
+            "color:#ff0033;font-family:'Orbitron',monospace;font-size:13px;letter-spacing:3px;" +
+            "pointer-events:none;z-index:999999;text-shadow:0 0 20px #ff0033;text-align:center;";
+          document.body.appendChild(emptyEl);
+          setTimeout(function() { if (emptyEl.parentNode) emptyEl.parentNode.removeChild(emptyEl); }, 2500);
+        }, 200);
+      }
+    }
+
+    function onKeyDown(e) {
+      if (e.key === "Escape") {
+        exitDestructionMode();
+      }
+      if (e.key === "r" || e.key === "R") {
+        if (ammoLeft < 30) {
+          playReloadSound();
+          showReloadMsg();
+          ammoLeft = 30;
+          updateHUD();
+        }
+      }
+    }
+
+    function exitDestructionMode() {
+      destructionActive = false;
+      document.body.style.cursor = "";
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("click", onShoot);
+      document.removeEventListener("keydown", onKeyDown);
+      var ch = document.getElementById("god-crosshair");
+      var hud = document.getElementById("destruction-hud");
+      if (ch) ch.parentNode.removeChild(ch);
+      if (hud) hud.parentNode.removeChild(hud);
+
+      // Mostra placar final
+      var summary = document.createElement("div");
+      summary.innerHTML =
+        '<div style="font-family:Orbitron,monospace;font-size:13px;letter-spacing:3px;margin-bottom:12px;animation:glitch 0.5s infinite">// MODO DESTRUIÇÃO ENCERRADO //</div>' +
+        '<div>ELEMENTOS DESTRUÍDOS: <span style="color:#00ff00">' + destroyedCount + '</span></div>' +
+        '<div>TIROS DISPARADOS: <span style="color:#00ff00">' + shotsFired + '</span></div>' +
+        '<div>PRECISÃO: <span style="color:#00ff00">' + (shotsFired > 0 ? Math.round((destroyedCount/shotsFired)*100) : 0) + '%</span></div>' +
+        '<div style="margin-top:12px;font-size:10px;color:#005500">ESC fechou o modo</div>';
+      summary.style.cssText =
+        "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);" +
+        "background:rgba(0,0,0,0.95);color:#00ff00;font-family:'Courier New',monospace;" +
+        "font-size:13px;padding:24px 32px;border:1px solid #00ff00;" +
+        "box-shadow:0 0 30px rgba(0,255,0,0.4);z-index:999999;text-align:center;line-height:2;letter-spacing:1px;";
+      document.body.appendChild(summary);
+      setTimeout(function() {
+        summary.style.transition = "opacity 0.5s";
+        summary.style.opacity = "0";
+        setTimeout(function() { if (summary.parentNode) summary.parentNode.removeChild(summary); }, 500);
+      }, 3000);
+    }
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("click", onShoot);
+    document.addEventListener("keydown", onKeyDown);
+  }
 
 
   /* =====================
