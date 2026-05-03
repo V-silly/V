@@ -19,7 +19,7 @@ projeto/
 
 ```bash
 git add .
-git commit -m "descrição da atualização"
+git commit -m "update"
 git push
 ```
 
