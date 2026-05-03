@@ -3,10 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>V OS</title>
+  <title>V</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 </head>
 <body>
+
+  <!-- ===================== WELCOME SCREEN ===================== -->
+  <div id="welcomeScreen">
+    <canvas id="welcomeMatrix"></canvas>
+    <div class="wc-scanlines"></div>
+    <div class="wc-beam"></div>
+    <span class="wc-corner wc-tl"></span>
+    <span class="wc-corner wc-tr"></span>
+    <span class="wc-corner wc-bl"></span>
+    <span class="wc-corner wc-br"></span>
+
+    <div class="wc-topbar">
+      <span>root@V:~$ ./boot</span>
+      <span id="wcClock">--:--:--</span>
+    </div>
+
+    <div class="wc-terminal">
+      <div id="wcLines"></div>
+      <hr id="wcDivider">
+      <div id="wcProgressWrap"><div id="wcProgressFill"></div></div>
+      <div id="wcWelcome">
+        <div class="wc-badge">ACESSO GARANTIDO</div>
+        <div class="wc-title">V</div>
+        <div class="wc-sub">SISTEMA ONLINE</div>
+        <button id="wcEnterBtn">ENTRAR &gt;&gt;</button>
+        <div class="wc-sysinfo">NODE: BR-SP-001 &nbsp;|&nbsp; ENC: AES-256 &nbsp;|&nbsp; BUILD: 0.7</div>
+      </div>
+    </div>
+  </div>
+  <!-- ===================== FIM WELCOME SCREEN ===================== -->
 
   <audio id="tabsound" src="assets/sounds/virtual_vibes-glitch-sound-effect-hd-379466_[cut_1sec].mp3"></audio>
   <audio id="bgmusic" loop>
@@ -14,7 +46,6 @@
   </audio>
 
   <div id="glitchOverlay" class="glitch-overlay" style="display:none;"></div>
-
   <canvas id="matrix"></canvas>
 
   <div class="topbar glow">
@@ -134,7 +165,8 @@
         <div class="entry">Patch 4 - Nqvpvbanqb Ravtznf ab fvgr 13</div>
         <div class="entry">Patch 5 - Adicionado som entre abas</div>
         <div class="entry">Patch 6 - Musica e efeitos e deixando o site online</div>
-        <div class="entry">Patch 7 - Refatoração e correção do HTML</div>
+        <div class="entry">Patch 7 - Refatoração e correção do HTML/CSS/JS</div>
+        <div class="entry">Patch 8 - Tela de boas-vindas integrada</div>
       </div>
 
       <div id="sobre" class="hidden">
