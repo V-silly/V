@@ -37,3 +37,7 @@ EXEMPLO
   <b class="glitch">Cyberpunk 2077</b>
   <p class="glow">legal...</p>
 </div>
+
+git add .
+git commit -m "atualização"
+git push
