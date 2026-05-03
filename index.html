@@ -1,154 +1,154 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>V OS</title>
-
-<link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V OS</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <audio id="tabsound" src="assets\sounds\virtual_vibes-glitch-sound-effect-hd-379466_[cut_1sec].mp3"></audio>
+  <audio id="tabsound" src="assets/sounds/virtual_vibes-glitch-sound-effect-hd-379466_[cut_1sec].mp3"></audio>
+  <audio id="bgmusic" loop>
+    <source src="assets/sounds/humanstudioedm-cyberpunk-techno-510219 (1).mp3" type="audio/mpeg">
+  </audio>
+
   <div id="glitchOverlay" class="glitch-overlay" style="display:none;"></div>
 
-<canvas id="matrix"></canvas>
+  <canvas id="matrix"></canvas>
 
-<audio id="bgmusic" loop>
-  <source src="assets\sounds\humanstudioedm-cyberpunk-techno-510219 (1).mp3" type="audio/mpeg">
-</audio>
-
-<div class="topbar glow">
-  root@V:~$ ./system
-  <button onclick="toggleMusic()" style="float:right">🔊</button>
-</div>
-
-<div class="container">
-
-<div class="sidebar">
-  <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHN0Y2J0cDdqaGhrYmNodnluZjBrZDU1M210bHl2NjRxNHAwMHN0NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/sBffRwz30Z81xlBw4i/giphy.gif">
-  <button onclick="showTab('diario')">Diário</button>
-  <button onclick="showTab('jogos')">Jogos</button>
-  <button onclick="showTab('musicas')">Músicas</button>
-  <button onclick="showTab('filmes')">Filmes/Séries</button>
-  <button onclick="showTab('patches')">Patches</button>
-  <button onclick="showTab('sobre')">Sobre</button>
-</div>
-
-<div class="main">
-
-<div id="diario">
-  <h2 class="typing" data-text="[DIÁRIO]"></h2>
-
-  <!-- Editar diario aqui -->
-  <div class="entry">
-    <b class="data" data-date="2026-05-03T12:36"></b><br>
-    <p class="glow">Deixando online pelo git</p>
-    <p class="glitch">Oi elisna funcionou? testa ai pra ver se sai musica ali em cima no canto superior direito...</p>
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTk2MnlwNzJyZnF5emxjb3hsOHRyMTM0bGZndnA1ZTR1OTF6dGIxYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/tzfGJfLAofw0aJaLTZ/giphy.gif" width="200">
-  </div>
-  <div class="entry">
-    <b class="data" data-date="2026-05-03T12:38"></b><br>
-    <p class="glow">GATO FODAAAAA</p>
-    <p>QUE GATO FODA</p>
-    <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZGpnZTJvbG5xMHp5ZW9rcHhlOTdkeWo5cWRsanFuZDluZzQ3cHp1cyZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/bn0lwVwfVaLb6eCGGG/giphy.gif" width="200">
-  </div>
-  
-
-</div>
-
-<div id="jogos" class="hidden">
-  <h2 class="typing" data-text="[JOGOS]"></h2>
-  <!-- jogos aqui -->
-  <div class="entry">
-    <b class="data" data-date="2026-05-03T12:40"></b><br>
-    <p>Cyberpunk 2077</p>
-    <p>legal...</p> 
-    <img src="https://i.pinimg.com/736x/28/17/44/2817445d54e64d42da7e6a2f8258a7cb.jpg" width="300">
-    <img src="https://i.pinimg.com/736x/9f/2a/81/9f2a81fe182b1c698a0482dbac68e251.jpg" width="300">
+  <div class="topbar glow">
+    root@V:~$ ./system
+    <button onclick="toggleMusic()" aria-label="Tocar/Pausar música">🔊</button>
   </div>
 
-</div>
+  <div class="container">
 
-<div id="musicas" class="hidden">
-  <h2 class="typing" data-text="[MÚSICAS]"></h2>
-  <!-- Editar musicas aqui -->
-   <div class="entry">
-  <b class="data" data-date="2026-05-03T12:42"></b><br>
-  <p>After Dark - Mr kitty</p>
-  <p class="glow">uma boa musica para eu testar aqui...</p>
+    <div class="sidebar">
+      <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHN0Y2J0cDdqaGhrYmNodnluZjBrZDU1M210bHl2NjRxNHAwMHN0NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/sBffRwz30Z81xlBw4i/giphy.gif" alt="Avatar animado">
+      <button onclick="showTab('diario')">Diário</button>
+      <button onclick="showTab('jogos')">Jogos</button>
+      <button onclick="showTab('musicas')">Músicas</button>
+      <button onclick="showTab('filmes')">Filmes/Séries</button>
+      <button onclick="showTab('patches')">Patches</button>
+      <button onclick="showTab('sobre')">Sobre</button>
+    </div>
 
-  <button onclick="togglePlayer('player1')">▶ Ouvir</button>
+    <div class="main">
 
-  <div id="player1" style="display:none; margin-top:10px;">
-    
-    <iframe data-testid="embed-iframe" 
-    style="border-radius:12px" 
-    src="https://open.spotify.com/embed/track/2LKOHdMsL0K9KwcPRlJK2v?utm_source=generator&theme=0" 
-    width="100%" height="352" frameborder="0" 
-    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-    loading="lazy"></iframe>
+      <div id="diario">
+        <h2 class="typing" data-text="[DIÁRIO]"></h2>
 
+        <!-- Editar diario aqui -->
+        <div class="entry">
+          <b class="data" data-date="2026-05-03T12:36"></b><br>
+          <p class="glow">Deixando online pelo git</p>
+          <p class="glitch">Oi elisna funcionou? testa ai pra ver se sai musica ali em cima no canto superior direito...</p>
+          <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTk2MnlwNzJyZnF5emxjb3hsOHRyMTM0bGZndnA1ZTR1OTF6dGIxYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/tzfGJfLAofw0aJaLTZ/giphy.gif" width="200" alt="">
+        </div>
+
+        <div class="entry">
+          <b class="data" data-date="2026-05-03T12:38"></b><br>
+          <p class="glow">GATO FODAAAAA</p>
+          <p>QUE GATO FODA</p>
+          <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZGpnZTJvbG5xMHp5ZW9rcHhlOTdkeWo5cWRsanFuZDluZzQ3cHp1cyZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/bn0lwVwfVaLb6eCGGG/giphy.gif" width="200" alt="">
+        </div>
+
+      </div>
+
+      <div id="jogos" class="hidden">
+        <h2 class="typing" data-text="[JOGOS]"></h2>
+
+        <!-- Editar jogos aqui -->
+        <div class="entry">
+          <b class="data" data-date="2026-05-03T12:40"></b><br>
+          <p>Cyberpunk 2077</p>
+          <p>legal...</p>
+          <img src="https://i.pinimg.com/736x/28/17/44/2817445d54e64d42da7e6a2f8258a7cb.jpg" width="300" alt="Cyberpunk 2077">
+          <img src="https://i.pinimg.com/736x/9f/2a/81/9f2a81fe182b1c698a0482dbac68e251.jpg" width="300" alt="Cyberpunk 2077">
+        </div>
+
+      </div>
+
+      <div id="musicas" class="hidden">
+        <h2 class="typing" data-text="[MÚSICAS]"></h2>
+
+        <!-- Editar musicas aqui -->
+        <div class="entry">
+          <b class="data" data-date="2026-05-03T12:42"></b><br>
+          <p>After Dark - Mr Kitty</p>
+          <p class="glow">uma boa musica para eu testar aqui...</p>
+          <button onclick="togglePlayer('player1')">▶ Ouvir</button>
+          <div id="player1" style="display:none; margin-top:10px;">
+            <iframe
+              style="border-radius:12px"
+              src="https://open.spotify.com/embed/track/2LKOHdMsL0K9KwcPRlJK2v?utm_source=generator&theme=0"
+              width="100%" height="352" frameborder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              title="After Dark - Mr Kitty no Spotify">
+            </iframe>
+          </div>
+        </div>
+
+        <div class="entry">
+          <b class="data" data-date="2026-05-03T12:42"></b><br>
+          <p>Solitude - Felsmann + Tiley Reinterpretation</p>
+          <p class="glow">Cara... que musica foda.</p>
+          <button onclick="togglePlayer('player2')">▶ Ouvir</button>
+          <div id="player2" style="display:none; margin-top:10px;">
+            <iframe
+              style="border-radius:12px"
+              src="https://open.spotify.com/embed/track/6RK3IsiUW6YaSMEodbO4tk?utm_source=generator&theme=0"
+              width="100%" height="352" frameborder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              title="Solitude - Felsmann + Tiley Reinterpretation no Spotify">
+            </iframe>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="filmes" class="hidden">
+        <h2 class="typing" data-text="[FILMES/SÉRIES]"></h2>
+
+        <!-- Editar filmes aqui -->
+        <div class="entry">
+          <b class="data"></b><br>
+          <p>The Office</p>
+          <p>Definitivamente uma das melhores séries que ja assisti na vida...</p>
+          <img src="https://i.pinimg.com/1200x/f4/f5/e8/f4f5e89bef2f628ff34445cd1f4b8e88.jpg" width="200" alt="The Office">
+          <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmFha3NwMzl3a3MzeHV3bWRpM3k4ZWkzamFwZmIzaTZ2b3Jva21pMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/i79P9wUfnmPyo/giphy.gif" width="475" alt="">
+        </div>
+
+      </div>
+
+      <div id="patches" class="hidden">
+        <h2 class="typing" data-text="[PATCHES]"></h2>
+
+        <!-- Editar patches aqui -->
+        <div class="entry">Patch 1 - testando gifs e imagens</div>
+        <div class="entry">Patch 2 - limpando o código do site</div>
+        <div class="entry">Patch 3 - Adicionei uma musiquinha</div>
+        <div class="entry">Patch 4 - Nqvpvbanqb Ravtznf ab fvgr 13</div>
+        <div class="entry">Patch 5 - Adicionado som entre abas</div>
+        <div class="entry">Patch 6 - Musica e efeitos e deixando o site online</div>
+        <div class="entry">Patch 7 - Refatoração e correção do HTML</div>
+      </div>
+
+      <div id="sobre" class="hidden">
+        <h2 class="typing" data-text="[SOBRE]"></h2>
+        <div class="entry">
+          Nome: Vinicius<br>
+          Status: Online<br>
+          Dormindo.
+        </div>
+      </div>
+
+    </div>
   </div>
-</div>
-<div class="entry">
-  <b class="data" data-date="2026-05-03T12:42"></b><br>
-  <p>Solitude - Felsmann + Tiley Reinterpretation</p>
-  <p class="glow">Cara... que musica foda.</p>
 
-  <button onclick="togglePlayer('player2')">▶ Ouvir</button>
-
-  <div id="player2" style="display:none; margin-top:10px;">
-    
-    <iframe data-testid="embed-iframe" 
-    style="border-radius:12px" 
-    src="https://open.spotify.com/embed/track/6RK3IsiUW6YaSMEodbO4tk?utm_source=generator&theme=0" 
-    width="100%" height="352" frameborder="0" 
-    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-    loading="lazy"></iframe>
-
-  </div>
-</div>
-
-</div>
-
-<div id="filmes" class="hidden">
-  <h2 class="typing" data-text="[FILMES/SÉRIES]"></h2>
-  <div class="entry">
-    <b class="data"></b><br>
-    <p>The Office</p>
-    <p>Definitivamente uma das melhores séries que ja assiti na vida...</p>
-    <img src="https://i.pinimg.com/1200x/f4/f5/e8/f4f5e89bef2f628ff34445cd1f4b8e88.jpg" width="200">
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmFha3NwMzl3a3MzeHV3bWRpM3k4ZWkzamFwZmIzaTZ2b3Jva21pMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/i79P9wUfnmPyo/giphy.gif" width="475">
-  </div>
-  <!-- Editar filmes aqui -->
-
-</div>
-
-<div id="patches" class="hidden">
-  <h2 class="typing" data-text="[PATCHES]"></h2>
-  <!-- Editar patches aqui -->
-  <div class="entry">Patch 1 - testando gifs e imagens</div>
-  <div class="entry">Patch 2 - limpando o código do site</div>
-  <div class="entry">Patch 3 - Adicionei uma musiquinha</div>
-  <div class="entry">Patch 4 - Nqvpvbanqb Ravtznf ab fvgr 13</div>
-  <div class="entry">Patch 5 - Adicionado som entre abas</div>
-  <div class="entry">Patch 6 - Musica e efeitos e deixando o site online</div>
-</div>
-
-<div id="sobre" class="hidden">
-  <h2 class="typing" data-text="[SOBRE]"></h2>
-  <div class="entry">
-    Nome: Vinicius<br>
-    Status: Online<br>
-    Dormindo.
-  </div>
-</div>
-
-</div>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

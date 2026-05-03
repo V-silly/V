@@ -1,11 +1,32 @@
-body {
-  margin: 0;
-  background: black;
-  color: #00ff00;
-  font-family: "Courier New", monospace;
-  overflow: hidden;
+/* =====================
+   VARIÁVEIS
+   ===================== */
+:root {
+  --green:      #00ff00;
+  --green-dim:  #00aa00;
+  --green-dark: #001100;
+  --black:      #000000;
+  --font-main:  "Courier New", monospace;
 }
 
+/* =====================
+   BASE
+   ===================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--black);
+  color: var(--green);
+  font-family: var(--font-main);
+  /* removido overflow:hidden — impedia scroll no .main */
+}
+
+/* =====================
+   MATRIX CANVAS
+   ===================== */
 canvas {
   position: fixed;
   top: 0;
@@ -15,41 +36,93 @@ canvas {
   pointer-events: none;
 }
 
+/* =====================
+   TOPBAR
+   ===================== */
+.topbar {
+  position: relative;         /* garante que fica acima do canvas */
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  background: rgba(0, 0, 0, 0.92);
+  border-bottom: 1px solid var(--green);
+}
+
+.topbar button {
+  font-family: var(--font-main);
+  font-size: 16px;
+  background: transparent;
+  color: var(--green);
+  border: none;
+  cursor: pointer;
+  transition: text-shadow 0.2s;
+  padding: 0 4px;
+}
+
+.topbar button:hover,
+.topbar button.active {
+  text-shadow: 0 0 10px var(--green);
+}
+
+/* =====================
+   LAYOUT
+   ===================== */
 .container {
   position: relative;
   z-index: 2;
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 37px); /* desconta a topbar */
 }
 
+/* =====================
+   SIDEBAR
+   ===================== */
 .sidebar {
   width: 220px;
-  border-right: 1px solid #00ff00;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   padding: 10px;
-  background: rgba(0,0,0,0.9);
-}
-
-.sidebar button {
-  width: 100%;
-  background: black;
-  color: #00ff00;
-  border: 1px solid #00ff00;
-  margin: 5px 0;
-  cursor: pointer;
-}
-
-.sidebar button:hover {
-  background: #001100;
-  box-shadow: 0 0 10px #00ff00;
+  background: rgba(0, 0, 0, 0.92);
+  border-right: 1px solid var(--green);
+  overflow-y: auto;           /* scroll se tiver muitos botões */
 }
 
 .sidebar img {
   width: 100%;
   height: auto;
-  border: 1px solid #00ff00;
-  box-shadow: 0 0 10px #00ff00;
+  object-fit: cover;
+  border: 1px solid var(--green);
+  box-shadow: 0 0 10px var(--green);
+  margin-bottom: 4px;
 }
 
+.sidebar button {
+  width: 100%;
+  font-family: var(--font-main);
+  font-size: 13px;
+  background: var(--black);
+  color: var(--green);
+  border: 1px solid var(--green);
+  padding: 6px 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+.sidebar button:hover {
+  background: var(--green-dark);
+  box-shadow: 0 0 10px var(--green);
+}
+
+/* =====================
+   MAIN
+   ===================== */
 .main {
   flex: 1;
   padding: 20px;
@@ -58,126 +131,73 @@ canvas {
 
 .hidden { display: none; }
 
+/* =====================
+   ENTRIES
+   ===================== */
 .entry {
-  border: 1px solid #00ff00;
+  border: 1px solid var(--green);
   margin: 10px 0;
-  padding: 10px;
-  box-shadow: 0 0 10px #00ff00;
+  padding: 12px;
+  box-shadow: 0 0 10px var(--green);
+  line-height: 1.6;
 }
 
-.glow {
-  text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
+.entry p {
+  margin: 4px 0;
 }
 
-.topbar {
-  border-bottom: 1px solid #00ff00;
-  padding: 10px;
-  background: rgba(0,0,0,0.9);
+/* =====================
+   BOTÕES GERAIS
+   ===================== */
+button {
+  font-family: var(--font-main);
+  background: var(--black);
+  color: var(--green);
+  border: 1px solid var(--green);
+  cursor: pointer;
+  padding: 4px 10px;
 }
 
-.terminal {
-  margin-top: 20px;
-  border-top: 1px solid #00ff00;
-  padding-top: 10px;
+button:hover {
+  background: var(--green-dark);
 }
 
+/* =====================
+   INPUTS
+   ===================== */
 input {
   width: 100%;
-  background: black;
+  font-family: var(--font-main);
+  background: var(--black);
   border: none;
-  color: #00ff00;
+  color: var(--green);
   outline: none;
 }
 
+/* =====================
+   SCROLLBAR
+   ===================== */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-thumb { background: #00ff00; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--green-dim); }
+::-webkit-scrollbar-thumb:hover { background: var(--green); }
 
-button {
-  background: black;
-  color: #00ff00;
-  border: 1px solid #00ff00;
-  cursor: pointer;
-}
-
-.topbar button {
-  transition: 0.2s;
-}
-
-.topbar button:hover {
-  box-shadow: 0 0 10px #00ff00;
-}
-
-.topbar button.active {
-  color: #00ff00;
-  text-shadow: 0 0 10px #00ff00;
-}
-
-.topbar {
-  font-size: 14px;
-  letter-spacing: 1px;
+/* =====================
+   EFEITOS DE TEXTO
+   ===================== */
+.glow {
+  text-shadow: 0 0 5px var(--green), 0 0 10px var(--green);
 }
 
 .glitch {
   position: relative;
-  color: #00ff00;
+  color: var(--green);
   animation: glitch 0.4s infinite;
-}
-
-@keyframes glitch {
-  0% { text-shadow: 2px 0 red, -2px 0 blue; }
-  10% { text-shadow: -3px 0 red, 3px 0 blue; }
-  20% { text-shadow: 2px 2px red, -2px -2px blue; }
-  30% { text-shadow: -4px 2px red, 4px -2px blue; }
-  40% { text-shadow: 2px 0 red, -2px 0 blue; }
-  50% { text-shadow: 0 0 10px #00ff00; }
-  60% { text-shadow: 3px 0 red, -3px 0 blue; }
-  70% { text-shadow: -2px -2px red, 2px 2px blue; }
-  80% { text-shadow: 2px 0 red, -2px 0 blue; }
-  100% { text-shadow: 0 0 5px #00ff00; }
-}
-
-.glitch-screen {
-  animation: glitchScreen 0.15s infinite;
-}
-
-@keyframes glitchScreen {
-  0%   { transform: translate(0); }
-  15%  { transform: translate(-8px, 4px); }
-  30%  { transform: translate(8px, -4px); }
-  45%  { transform: translate(-4px, 3px); }
-  60%  { transform: translate(4px, -3px); }
-  75%  { transform: translate(-6px, 2px); }
-  90%  { transform: translate(6px, -2px); }
-  100% { transform: translate(0); }
-}
-
-.glitch-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0,255,0,0.03),
-    rgba(0,255,0,0.03) 2px,
-    transparent 2px,
-    transparent 4px
-  );
-  mix-blend-mode: screen;
-  animation: flicker 0.1s infinite;
-}
-
-@keyframes flicker {
-  0% { opacity: 0.1; }
-  50% { opacity: 0.3; }
-  100% { opacity: 0.1; }
 }
 
 .glitch-strong {
   position: relative;
-  color: #00ff00;
+  color: var(--green);
 }
 
 .glitch-strong::before,
@@ -201,18 +221,35 @@ button {
   clip-path: inset(50% 0 0 0);
 }
 
-@keyframes glitchTop {
-  0% { transform: translate(0); }
-  50% { transform: translate(-3px, -2px); }
-  100% { transform: translate(0); }
+/* =====================
+   GLITCH OVERLAY / SCREEN
+   ===================== */
+.glitch-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 255, 0, 0.03),
+    rgba(0, 255, 0, 0.03) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  mix-blend-mode: screen;
+  animation: flicker 0.1s infinite;
 }
 
-@keyframes glitchBottom {
-  0% { transform: translate(0); }
-  50% { transform: translate(3px, 2px); }
-  100% { transform: translate(0); }
+.glitch-screen {
+  animation: glitchScreen 0.15s infinite;
 }
 
+/* =====================
+   SCANLINES (body::after)
+   ===================== */
 body::after {
   content: "";
   position: fixed;
@@ -220,13 +257,68 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
   pointer-events: none;
   background: repeating-linear-gradient(
     to bottom,
-    rgba(0,255,0,0.02),
-    rgba(0,255,0,0.02) 1px,
+    rgba(0, 255, 0, 0.02),
+    rgba(0, 255, 0, 0.02) 1px,
     transparent 1px,
     transparent 3px
   );
   mix-blend-mode: overlay;
+}
+
+/* =====================
+   TERMINAL (reservado para uso futuro)
+   ===================== */
+.terminal {
+  margin-top: 20px;
+  border-top: 1px solid var(--green);
+  padding-top: 10px;
+}
+
+/* =====================
+   @KEYFRAMES
+   ===================== */
+@keyframes glitch {
+  0%   { text-shadow:  2px  0   red, -2px  0   blue; }
+  10%  { text-shadow: -3px  0   red,  3px  0   blue; }
+  20%  { text-shadow:  2px  2px red, -2px -2px blue; }
+  30%  { text-shadow: -4px  2px red,  4px -2px blue; }
+  40%  { text-shadow:  2px  0   red, -2px  0   blue; }
+  50%  { text-shadow: 0 0 10px var(--green); }
+  60%  { text-shadow:  3px  0   red, -3px  0   blue; }
+  70%  { text-shadow: -2px -2px red,  2px  2px blue; }
+  80%  { text-shadow:  2px  0   red, -2px  0   blue; }
+  100% { text-shadow: 0 0 5px var(--green); }
+}
+
+@keyframes glitchScreen {
+  0%   { transform: translate(0); }
+  15%  { transform: translate(-8px,  4px); }
+  30%  { transform: translate( 8px, -4px); }
+  45%  { transform: translate(-4px,  3px); }
+  60%  { transform: translate( 4px, -3px); }
+  75%  { transform: translate(-6px,  2px); }
+  90%  { transform: translate( 6px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes flicker {
+  0%   { opacity: 0.1; }
+  50%  { opacity: 0.3; }
+  100% { opacity: 0.1; }
+}
+
+@keyframes glitchTop {
+  0%   { transform: translate(0); }
+  50%  { transform: translate(-3px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitchBottom {
+  0%   { transform: translate(0); }
+  50%  { transform: translate(3px, 2px); }
+  100% { transform: translate(0); }
 }
