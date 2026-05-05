@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V — Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green:      #00ff00;
+      --green-dim:  #00aa00;
+      --green-dark: #001100;
+      --black:      #000000;
+      --red:        #ff0033;
+      --cyan:       #00ffff;
+      --font:       "Courier New", monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #000;
+      color: var(--green);
+      font-family: var(--font);
+      min-height: 100vh;
+    }
+
+    /* SCANLINES */
+    body::after {
+      content: "";
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+      background: repeating-linear-gradient(to bottom, rgba(0,255,0,0.015), rgba(0,255,0,0.015) 1px, transparent 1px, transparent 3px);
+    }
+
+    /* TOPBAR */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 16px;
+      padding: 10px 20px;
+      background: rgba(0,0,0,0.97);
+      border-bottom: 1px solid var(--green);
+      font-size: 13px; letter-spacing: 1px;
+    }
+
+    .topbar-title {
+      font-family: 'Orbitron', var(--font);
+      font-size: 14px; font-weight: 900;
+      color: var(--green);
+      text-shadow: 0 0 10px var(--green);
+      letter-spacing: 4px;
+    }
+
+    .topbar-badge {
+      font-size: 10px; color: var(--green-dim);
+      border: 1px solid #001a00;
+      padding: 2px 8px; letter-spacing: 2px;
+    }
+
+    .topbar-right { margin-left: auto; display: flex; gap: 10px; }
+
+    /* LAYOUT */
+    .app {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: 240px 1fr 340px;
+      height: calc(100vh - 43px);
+    }
+
+    /* SIDEBAR - ABAS */
+    .sidebar {
+      border-right: 1px solid #001a00;
+      padding: 16px 12px;
+      display: flex; flex-direction: column; gap: 6px;
+      overflow-y: auto;
+      background: rgba(0,5,0,0.8);
+    }
+
+    .sidebar-title {
+      font-size: 10px; color: #003300;
+      letter-spacing: 3px; margin-bottom: 8px;
+      padding-bottom: 6px; border-bottom: 1px solid #001a00;
+    }
+
+    .tab-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid #001a00;
+      color: var(--green-dim);
+      font-family: var(--font);
+      font-size: 12px;
+      padding: 8px 12px;
+      text-align: left;
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.15s;
+      position: relative;
+    }
+
+    .tab-btn::before {
+      content: "";
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: transparent;
+      transition: background 0.15s;
+    }
+
+    .tab-btn:hover { border-color: var(--green-dim); color: var(--green); }
+    .tab-btn.active { border-color: var(--green); color: var(--green); background: #001100; }
+    .tab-btn.active::before { background: var(--green); box-shadow: 0 0 6px var(--green); }
+
+    .tab-count {
+      float: right;
+      font-size: 10px;
+      color: #003300;
+    }
+
+    .tab-btn.active .tab-count { color: var(--green-dim); }
+
+    /* EDITOR - CENTRO */
+    .editor-panel {
+      display: flex; flex-direction: column;
+      border-right: 1px solid #001a00;
+      background: rgba(0,3,0,0.6);
+      overflow-y: auto;
+    }
+
+    .editor-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid #001a00;
+      font-size: 11px; color: #003300; letter-spacing: 3px;
+    }
+
+    .editor-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+
+    label {
+      font-size: 10px; color: #005500;
+      letter-spacing: 2px; display: block; margin-bottom: 4px;
+    }
+
+    .field-row { display: flex; gap: 12px; }
+    .field-row > * { flex: 1; }
+
+    input[type="text"],
+    input[type="datetime-local"],
+    textarea,
+    select {
+      width: 100%;
+      background: #000810;
+      border: 1px solid #001a00;
+      color: var(--green);
+      font-family: var(--font);
+      font-size: 13px;
+      padding: 8px 10px;
+      outline: none;
+      transition: border-color 0.15s;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--green-dim);
+    }
+
+    textarea#postContent {
+      min-height: 160px;
+      line-height: 1.7;
+    }
+
+    /* MEDIA ITEMS */
+    .media-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .media-item {
+      display: flex; gap: 8px; align-items: center;
+      border: 1px solid #001a00;
+      padding: 8px 10px;
+      background: rgba(0,8,0,0.5);
+    }
+
+    .media-item input { flex: 1; font-size: 12px; }
+    .media-item select { width: 80px; font-size: 11px; }
+    .media-item input[type="number"] { width: 70px; flex: none; }
+
+    .media-item .del-btn {
+      background: transparent; border: 1px solid #330000;
+      color: #660000; font-size: 12px; padding: 4px 8px;
+      cursor: pointer; font-family: var(--font);
+      transition: all 0.15s;
+    }
+    .media-item .del-btn:hover { border-color: var(--red); color: var(--red); }
+
+    .spotify-row {
+      border: 1px solid #001a00;
+      padding: 10px;
+      background: rgba(0,8,0,0.5);
+    }
+
+    /* BOTÕES */
+    .btn {
+      font-family: var(--font);
+      font-size: 12px; letter-spacing: 2px;
+      padding: 8px 16px;
+      border: 1px solid; cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-primary {
+      background: var(--green); color: #000;
+      border-color: var(--green);
+    }
+    .btn-primary:hover { background: #00ddff; border-color: #00ddff; }
+
+    .btn-secondary {
+      background: transparent; color: var(--green-dim);
+      border-color: #002200;
+    }
+    .btn-secondary:hover { border-color: var(--green-dim); color: var(--green); }
+
+    .btn-danger {
+      background: transparent; color: #660000;
+      border-color: #220000;
+    }
+    .btn-danger:hover { border-color: var(--red); color: var(--red); }
+
+    .btn-small { font-size: 11px; padding: 5px 10px; }
+
+    .editor-actions {
+      padding: 16px 20px;
+      border-top: 1px solid #001a00;
+      display: flex; gap: 10px; align-items: center;
+      background: rgba(0,5,0,0.9);
+      position: sticky; bottom: 0;
+    }
+
+    .save-status {
+      font-size: 11px; color: #003300;
+      letter-spacing: 1px; margin-left: auto;
+    }
+    .save-status.ok { color: var(--green); animation: fadeOut 3s forwards; }
+    .save-status.err { color: var(--red); }
+
+    @keyframes fadeOut { 0%,70%{opacity:1} 100%{opacity:0} }
+
+    /* PREVIEW PANEL */
+    .preview-panel {
+      display: flex; flex-direction: column;
+      background: rgba(0,2,0,0.8);
+      overflow-y: auto;
+    }
+
+    .preview-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid #001a00;
+      font-size: 11px; color: #003300; letter-spacing: 3px;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .preview-body { padding: 14px; }
+
+    /* LISTA DE POSTS */
+    .posts-list { display: flex; flex-direction: column; gap: 6px; }
+
+    .post-item {
+      border: 1px solid #001a00;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+      position: relative;
+    }
+
+    .post-item:hover { border-color: var(--green-dim); background: #000e00; }
+    .post-item.selected { border-color: var(--green); background: #001100; }
+    .post-item.selected::before {
+      content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: var(--green);
+    }
+
+    .post-item-title {
+      font-size: 12px; color: var(--green);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 3px;
+    }
+
+    .post-item-date { font-size: 10px; color: #004400; }
+
+    .post-item-actions {
+      display: none;
+      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      gap: 4px;
+    }
+
+    .post-item:hover .post-item-actions { display: flex; }
+
+    /* PREVIEW ENTRY */
+    .preview-entry {
+      border: 1px solid var(--green);
+      padding: 12px;
+      box-shadow: 0 0 10px var(--green);
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    .preview-entry img {
+      max-width: 100%; margin-top: 8px;
+      border: 1px solid var(--green-dim);
+    }
+
+    .preview-entry p { margin: 6px 0; white-space: pre-wrap; }
+
+    /* MODAL / TOAST */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: #000; border: 1px solid var(--green);
+      color: var(--green); font-size: 12px; padding: 10px 24px;
+      letter-spacing: 2px; z-index: 9999;
+      animation: toastIn 0.2s ease, toastOut 0.3s 2.5s forwards;
+      box-shadow: 0 0 20px rgba(0,255,0,0.3);
+    }
+
+    .toast.error { border-color: var(--red); color: var(--red); box-shadow: 0 0 20px rgba(255,0,51,0.3); }
+
+    @keyframes toastIn  { from { opacity:0; transform: translateX(-50%) translateY(10px); } }
+    @keyframes toastOut { to   { opacity:0; transform: translateX(-50%) translateY(10px); } }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #002200; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+
+    /* INSTRUCOES */
+    .instructions {
+      border: 1px dashed #001a00; padding: 12px;
+      font-size: 11px; color: #004400; line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .instructions strong { color: var(--green-dim); }
+
+    .new-post-btn {
+      width: 100%; margin-top: 8px;
+    }
+
+    /* ESTADO VAZIO */
+    .empty-state {
+      text-align: center; padding: 40px 20px;
+      color: #003300; font-size: 12px; line-height: 2;
+    }
+
+    hr.section-divider {
+      border: none; border-top: 1px solid #001a00;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-title">V</span>
+  <span class="topbar-badge">ADMIN PANEL</span>
+  <span style="font-size:11px; color:#003300; letter-spacing:1px;">root@V:~$ ./admin</span>
+  <div class="topbar-right">
+    <button class="btn btn-primary btn-small" onclick="exportJSON()">⬇ EXPORTAR posts.json</button>
+    <a href="index.html" target="_blank">
+      <button class="btn btn-secondary btn-small">↗ VER SITE</button>
+    </a>
+  </div>
+</div>
+
+<div class="app">
+
+  <!-- SIDEBAR: abas -->
+  <div class="sidebar">
+    <div class="sidebar-title">// SEÇÕES</div>
+    <button class="tab-btn active" data-tab="diario" onclick="switchTab('diario', this)">
+      Diário <span class="tab-count" id="count-diario">0</span>
+    </button>
+    <button class="tab-btn" data-tab="jogos" onclick="switchTab('jogos', this)">
+      Jogos <span class="tab-count" id="count-jogos">0</span>
+    </button>
+    <button class="tab-btn" data-tab="musicas" onclick="switchTab('musicas', this)">
+      Músicas <span class="tab-count" id="count-musicas">0</span>
+    </button>
+    <button class="tab-btn" data-tab="filmes" onclick="switchTab('filmes', this)">
+      Filmes/Séries <span class="tab-count" id="count-filmes">0</span>
+    </button>
+
+    <hr class="section-divider">
+
+    <div class="instructions">
+      <strong>Como usar:</strong><br>
+      1. Escolha uma seção<br>
+      2. Clique em <strong>+ NOVO POST</strong><br>
+      3. Escreva seu post<br>
+      4. Adicione imagens/GIFs<br>
+      5. Clique <strong>SALVAR</strong><br>
+      6. Clique <strong>EXPORTAR</strong><br>
+      7. Substitua o <strong>posts.json</strong> no servidor
+    </div>
+  </div>
+
+  <!-- EDITOR: centro -->
+  <div class="editor-panel">
+    <div class="editor-header">// EDITOR</div>
+    <div class="editor-body" id="editorBody">
+
+      <div class="empty-state">
+        ← Selecione um post para editar<br>
+        ou clique em <strong style="color:var(--green-dim)">+ NOVO POST</strong>
+      </div>
+
+    </div>
+    <div class="editor-actions" id="editorActions" style="display:none;">
+      <button class="btn btn-primary" onclick="savePost()">💾 SALVAR</button>
+      <button class="btn btn-secondary" onclick="cancelEdit()">CANCELAR</button>
+      <button class="btn btn-danger" id="deleteBtn" onclick="deletePost()" style="display:none;">🗑 DELETAR</button>
+      <span class="save-status" id="saveStatus"></span>
+    </div>
+  </div>
+
+  <!-- PREVIEW: direita -->
+  <div class="preview-panel">
+    <div class="preview-header">
+      // POSTS
+      <button class="btn btn-secondary btn-small new-post-btn" style="margin-left:auto" onclick="newPost()">+ NOVO POST</button>
+    </div>
+    <div class="preview-body">
+      <div class="posts-list" id="postsList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// =====================
+// ESTADO
+// =====================
+let db = null;
+let currentTab = 'diario';
+let editingId = null;
+let mediaItems = [];
+
+// =====================
+// CARREGAR / SALVAR
+// =====================
+async function loadDB() {
+  try {
+    const r = await fetch('posts.json?v=' + Date.now());
+    db = await r.json();
+    updateCounts();
+    renderPostsList();
+  } catch(e) {
+    // arquivo não existe ainda — cria DB vazio
+    db = { diario: [], jogos: [], musicas: [], filmes: [] };
+    showToast('posts.json não encontrado. Use EXPORTAR após criar posts.', true);
+    updateCounts();
+    renderPostsList();
+  }
+}
+
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'posts.json';
+  a.click();
+  showToast('posts.json exportado! Substitua no servidor.');
+}
+
+// =====================
+// TABS
+// =====================
+function switchTab(tab, btn) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  cancelEdit();
+  renderPostsList();
+}
+
+function updateCounts() {
+  ['diario','jogos','musicas','filmes'].forEach(t => {
+    const el = document.getElementById('count-' + t);
+    if (el) el.textContent = (db[t] || []).length;
+  });
+}
+
+// =====================
+// LISTA DE POSTS
+// =====================
+function renderPostsList() {
+  const list = document.getElementById('postsList');
+  const posts = db[currentTab] || [];
+
+  if (!posts.length) {
+    list.innerHTML = '<div class="empty-state">Nenhum post ainda.<br>Clique em <strong style="color:var(--green-dim)">+ NOVO POST</strong></div>';
+    return;
+  }
+
+  list.innerHTML = posts.map((p, i) => `
+    <div class="post-item ${editingId === p.id ? 'selected' : ''}" onclick="editPost('${p.id}')">
+      <div class="post-item-title">${p.title || '(sem título)'}</div>
+      <div class="post-item-date">${formatDate(p.date)}</div>
+      <div class="post-item-actions">
+        <button class="btn btn-small btn-danger" onclick="event.stopPropagation(); confirmDelete('${p.id}')">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+}
+
+// =====================
+// EDITOR
+// =====================
+function newPost() {
+  editingId = null;
+  mediaItems = [];
+  renderEditor({
+    id: '',
+    date: new Date().toISOString().slice(0,16),
+    title: '',
+    content: '',
+    media: [],
+    spotify: '',
+    playerId: ''
+  }, false);
+}
+
+function editPost(id) {
+  const posts = db[currentTab] || [];
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+  editingId = id;
+  mediaItems = JSON.parse(JSON.stringify(post.media || []));
+  renderEditor(post, true);
+  renderPostsList();
+}
+
+function renderEditor(post, isEdit) {
+  const showSpotify = currentTab === 'musicas';
+  const showDelete = isEdit;
+
+  document.getElementById('editorActions').style.display = 'flex';
+  document.getElementById('deleteBtn').style.display = showDelete ? '' : 'none';
+  document.getElementById('saveStatus').textContent = '';
+
+  document.getElementById('editorBody').innerHTML = `
+    <div class="field-row">
+      <div>
+        <label>DATA/HORA</label>
+        <input type="datetime-local" id="postDate" value="${post.date || ''}">
+      </div>
+    </div>
+
+    <div>
+      <label>TÍTULO</label>
+      <input type="text" id="postTitle" placeholder="Título do post..." value="${escHtml(post.title || '')}">
+    </div>
+
+    <div>
+      <label>CONTEÚDO</label>
+      <textarea id="postContent" placeholder="Escreva aqui o seu post...">${escHtml(post.content || '')}</textarea>
+    </div>
+
+    ${showSpotify ? `
+    <div class="spotify-row">
+      <label>EMBED SPOTIFY (URL de embed)</label>
+      <input type="text" id="postSpotify" placeholder="https://open.spotify.com/embed/track/..." value="${escHtml(post.spotify || '')}">
+      <br><br>
+      <label>PLAYER ID (ex: player5)</label>
+      <input type="text" id="postPlayerId" placeholder="player5" value="${escHtml(post.playerId || '')}">
+    </div>
+    ` : ''}
+
+    <div>
+      <label>IMAGENS E GIFS</label>
+      <div class="media-list" id="mediaList"></div>
+      <br>
+      <button class="btn btn-secondary btn-small" onclick="addMedia()">+ ADICIONAR MÍDIA</button>
+    </div>
+
+    <div>
+      <label>PREVIEW</label>
+      <div id="livePreview" class="preview-entry"></div>
+    </div>
+  `;
+
+  renderMediaList();
+  updatePreview();
+
+  // Live preview
+  ['postTitle','postContent','postDate'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', updatePreview);
+  });
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// =====================
+// MEDIA
+// =====================
+function renderMediaList() {
+  const list = document.getElementById('mediaList');
+  if (!list) return;
+
+  if (!mediaItems.length) {
+    list.innerHTML = '<div style="font-size:11px;color:#003300;padding:6px 0;">Nenhuma mídia adicionada.</div>';
+    return;
+  }
+
+  list.innerHTML = mediaItems.map((m, i) => `
+    <div class="media-item">
+      <select onchange="mediaItems[${i}].type = this.value; renderMediaList(); updatePreview();">
+        <option value="image" ${m.type==='image'?'selected':''}>IMG</option>
+        <option value="gif"   ${m.type==='gif'  ?'selected':''}>GIF</option>
+      </select>
+      <input type="text" value="${escHtml(m.url || '')}" placeholder="URL da imagem/gif..."
+        oninput="mediaItems[${i}].url = this.value; updatePreview();">
+      <input type="number" value="${m.width || 200}" placeholder="px"
+        oninput="mediaItems[${i}].width = parseInt(this.value)||200; updatePreview();">
+      <button class="del-btn" onclick="removeMedia(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function addMedia() {
+  mediaItems.push({ type: 'image', url: '', width: 200 });
+  renderMediaList();
+}
+
+function removeMedia(i) {
+  mediaItems.splice(i, 1);
+  renderMediaList();
+  updatePreview();
+}
+
+// =====================
+// LIVE PREVIEW
+// =====================
+function updatePreview() {
+  const preview = document.getElementById('livePreview');
+  if (!preview) return;
+
+  const title   = document.getElementById('postTitle')?.value || '';
+  const content = document.getElementById('postContent')?.value || '';
+  const date    = document.getElementById('postDate')?.value || '';
+
+  let html = '';
+  if (date) html += `<b style="color:var(--green-dim); font-size:11px;">${formatDate(date)}</b><br>`;
+  if (title) html += `<p class="glow" style="text-shadow:0 0 5px var(--green);font-weight:bold;">${escHtml(title)}</p>`;
+  if (content) html += `<p>${escHtml(content).replace(/\n/g,'<br>')}</p>`;
+
+  mediaItems.forEach(m => {
+    if (m.url) {
+      html += `<img src="${escHtml(m.url)}" width="${m.width}" style="max-width:100%;margin-top:8px;" alt="" onerror="this.style.display='none'">`;
+    }
+  });
+
+  if (currentTab === 'musicas') {
+    const spotify = document.getElementById('postSpotify')?.value;
+    if (spotify) {
+      html += `<div style="margin-top:8px;font-size:11px;color:var(--green-dim);">[Player Spotify aqui]</div>`;
+    }
+  }
+
+  preview.innerHTML = html || '<span style="color:#003300;font-size:11px;">Digite algo para ver o preview...</span>';
+}
+
+// =====================
+// SALVAR / DELETAR
+// =====================
+function savePost() {
+  const title   = document.getElementById('postTitle')?.value.trim();
+  const content = document.getElementById('postContent')?.value.trim();
+  const date    = document.getElementById('postDate')?.value;
+
+  if (!title) { showToast('Digite um título!', true); return; }
+  if (!content) { showToast('Digite o conteúdo!', true); return; }
+
+  const post = {
+    id:      editingId || genId(),
+    date:    date || new Date().toISOString().slice(0,16),
+    title,
+    content,
+    media:   JSON.parse(JSON.stringify(mediaItems.filter(m => m.url)))
+  };
+
+  if (currentTab === 'musicas') {
+    post.spotify  = document.getElementById('postSpotify')?.value.trim() || '';
+    post.playerId = document.getElementById('postPlayerId')?.value.trim() || '';
+  }
+
+  const posts = db[currentTab] || [];
+
+  if (editingId) {
+    const idx = posts.findIndex(p => p.id === editingId);
+    if (idx >= 0) posts[idx] = post;
+  } else {
+    posts.unshift(post); // novo post vai pro topo
+    editingId = post.id;
+    db[currentTab] = posts;
+  }
+
+  updateCounts();
+  renderPostsList();
+
+  const st = document.getElementById('saveStatus');
+  st.textContent = '[ SALVO — exporte o JSON ]';
+  st.className = 'save-status ok';
+
+  document.getElementById('deleteBtn').style.display = '';
+  showToast('Post salvo! Clique em EXPORTAR para atualizar o site.');
+}
+
+function cancelEdit() {
+  editingId = null;
+  mediaItems = [];
+  document.getElementById('editorBody').innerHTML = '<div class="empty-state">← Selecione um post para editar<br>ou clique em <strong style="color:var(--green-dim)">+ NOVO POST</strong></div>';
+  document.getElementById('editorActions').style.display = 'none';
+  renderPostsList();
+}
+
+function deletePost() {
+  if (!editingId) return;
+  if (!confirm('Deletar este post?')) return;
+  confirmDelete(editingId);
+  cancelEdit();
+}
+
+function confirmDelete(id) {
+  db[currentTab] = (db[currentTab] || []).filter(p => p.id !== id);
+  updateCounts();
+  renderPostsList();
+  if (editingId === id) cancelEdit();
+  showToast('Post deletado.');
+}
+
+function genId() {
+  return currentTab[0] + Date.now().toString(36);
+}
+
+// =====================
+// TOAST
+// =====================
+function showToast(msg, isError) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+
+  const t = document.createElement('div');
+  t.className = 'toast' + (isError ? ' error' : '');
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// =====================
+// INIT
+// =====================
+loadDB();
+</script>
+</body>
+</html>
