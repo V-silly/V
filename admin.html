@@ -371,6 +371,25 @@
   <!-- SIDEBAR: abas -->
   <div class="sidebar">
     <div class="sidebar-title">// SEÇÕES</div>
+
+    <!-- FOTO/GIF DO DIA -->
+    <div style="margin-bottom:10px;">
+      <div class="sidebar-title" style="margin-bottom:6px;">// FOTO/GIF DO DIA</div>
+      <div style="margin-bottom:6px;">
+        <label>URL da imagem/GIF</label>
+        <input type="text" id="dailyUrl" placeholder="https://..." oninput="previewDaily()">
+      </div>
+      <div style="margin-bottom:6px;">
+        <label>LEGENDA (opcional)</label>
+        <input type="text" id="dailyCaption" placeholder="legenda...">
+      </div>
+      <div id="dailyPreviewWrap" style="display:none;margin-bottom:6px;">
+        <img id="dailyPreviewImg" src="" style="width:100%;height:80px;object-fit:cover;border:1px solid var(--green-dim);" alt="">
+      </div>
+      <button class="btn btn-secondary btn-small" style="width:100%;" onclick="saveDaily()">💾 SALVAR FOTO DO DIA</button>
+    </div>
+    <hr style="border:none;border-top:1px solid #001a00;margin-bottom:6px;">
+
     <button class="tab-btn active" data-tab="diario" onclick="switchTab('diario', this)">
       Diário <span class="tab-count" id="count-diario">0</span>
     </button>
@@ -382,6 +401,10 @@
     </button>
     <button class="tab-btn" data-tab="filmes" onclick="switchTab('filmes', this)">
       Filmes/Séries <span class="tab-count" id="count-filmes">0</span>
+    </button>
+
+    <button class="tab-btn" data-tab="troll" onclick="switchTab('troll', this)">
+      🎭 Troll Popups
     </button>
 
     <hr class="section-divider">
@@ -431,6 +454,35 @@
 </div>
 
 <script>
+
+// =====================
+// FOTO/GIF DO DIA
+// =====================
+function previewDaily() {
+  var url = document.getElementById('dailyUrl').value;
+  var wrap = document.getElementById('dailyPreviewWrap');
+  var img  = document.getElementById('dailyPreviewImg');
+  if (url) { img.src = url; wrap.style.display = ''; }
+  else { wrap.style.display = 'none'; }
+}
+
+function saveDaily() {
+  var url     = document.getElementById('dailyUrl').value.trim();
+  var caption = document.getElementById('dailyCaption').value.trim();
+  if (!db) { showToast('DB não carregado ainda.', true); return; }
+  db.daily = { url: url, caption: caption };
+  showToast('Foto do dia salva! Clique em EXPORTAR.');
+}
+
+function loadDailyIntoForm() {
+  if (!db || !db.daily) return;
+  var urlEl = document.getElementById('dailyUrl');
+  var capEl = document.getElementById('dailyCaption');
+  if (urlEl) urlEl.value = db.daily.url || '';
+  if (capEl) capEl.value = db.daily.caption || '';
+  if (db.daily.url) previewDaily();
+}
+
 // =====================
 // ESTADO
 // =====================
@@ -448,9 +500,10 @@ async function loadDB() {
     db = await r.json();
     updateCounts();
     renderPostsList();
+    loadDailyIntoForm();
   } catch(e) {
     // arquivo não existe ainda — cria DB vazio
-    db = { diario: [], jogos: [], musicas: [], filmes: [] };
+    db = { diario: [], jogos: [], musicas: [], filmes: [], daily: { url:'', caption:'' } };
     showToast('posts.json não encontrado. Use EXPORTAR após criar posts.', true);
     updateCounts();
     renderPostsList();
@@ -474,7 +527,128 @@ function switchTab(tab, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   cancelEdit();
-  renderPostsList();
+  if (tab === 'troll') {
+    renderTrollEditor();
+  } else {
+    renderPostsList();
+  }
+}
+
+// =====================
+// EDITOR TROLL
+// =====================
+function getTrollCfg() {
+  if (!db.troll) {
+    db.troll = { enabled: false, maxPopups: 12, items: [] };
+  }
+  return db.troll;
+}
+
+function renderTrollEditor() {
+  var cfg = getTrollCfg();
+  var list = document.getElementById('postsList');
+  list.innerHTML = '<div class="empty-state" style="text-align:left;padding:10px 0;font-size:11px;color:#004400;line-height:2;">Configure os pop-ups<br>no editor ao lado.</div>';
+
+  var editorBody = document.getElementById('editorBody');
+  var editorActions = document.getElementById('editorActions');
+  editorActions.style.display = 'flex';
+  document.getElementById('deleteBtn').style.display = 'none';
+  document.getElementById('saveStatus').textContent = '';
+
+  editorBody.innerHTML = [
+    '<div style="border:1px dashed #002200;padding:12px;font-size:11px;color:#005500;line-height:1.8;margin-bottom:6px;">',
+    '<b style="color:var(--green-dim)">Como funciona:</b><br>',
+    '1. Ative o sistema abaixo<br>',
+    '2. Adicione imagens e textos dos pop-ups do caos<br>',
+    '3. Salve e exporte o posts.json<br>',
+    '4. No site, um pop-up de "vírus" aparece aleatoriamente<br>',
+    '5. Se o usuário clicar em ACEITAR → caos começa 🎭',
+    '</div>',
+
+    '<div style="display:flex;align-items:center;gap:14px;margin-bottom:4px;">',
+    '<label style="margin:0;font-size:12px;letter-spacing:2px;color:var(--green);">ATIVAR SISTEMA TROLL</label>',
+    '<input type="checkbox" id="trollEnabled" style="width:18px;height:18px;accent-color:var(--green);" ' + (cfg.enabled ? 'checked' : '') + '>',
+    '</div>',
+
+    '<div>',
+    '<label>MÁXIMO DE POP-UPS NO CAOS</label>',
+    '<input type="number" id="trollMax" value="' + (cfg.maxPopups || 12) + '" min="3" max="30" style="width:100px;">',
+    '</div>',
+
+    '<hr style="border:none;border-top:1px solid #001a00;margin:4px 0;">',
+    '<label style="font-size:12px;color:var(--green);">POP-UPS DO CAOS</label>',
+    '<div id="trollItemsList"></div>',
+    '<button class="btn btn-secondary btn-small" style="margin-top:8px;" onclick="addTrollItem()">+ ADICIONAR POP-UP</button>',
+  ].join('');
+
+  renderTrollItems();
+}
+
+function renderTrollItems() {
+  var cfg = getTrollCfg();
+  var list = document.getElementById('trollItemsList');
+  if (!list) return;
+
+  if (!cfg.items || !cfg.items.length) {
+    list.innerHTML = '<div style="font-size:11px;color:#003300;padding:8px 0;">Nenhum pop-up configurado ainda.</div>';
+    return;
+  }
+
+  list.innerHTML = cfg.items.map(function(item, i) {
+    return [
+      '<div style="border:1px solid #001a00;padding:10px;margin-bottom:8px;background:rgba(0,8,0,0.5);">',
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">',
+      '<span style="font-size:10px;color:#005500;letter-spacing:2px;">POP-UP #' + (i+1) + '</span>',
+      '<button class="btn btn-danger btn-small" onclick="removeTrollItem(' + i + ')">✕ REMOVER</button>',
+      '</div>',
+      '<label>TÍTULO DA JANELA</label>',
+      '<input type="text" value="' + escHtml(item.title || '') + '" placeholder="ex: ⚠ ALERTA CRÍTICO" oninput="updateTrollItem(' + i + ',\'title\',this.value)" style="margin-bottom:8px;">',
+      '<label>MENSAGEM</label>',
+      '<textarea style="min-height:60px;margin-bottom:8px;resize:vertical;" placeholder="Texto do pop-up..." oninput="updateTrollItem(' + i + ',\'msg\',this.value)">' + escHtml(item.msg || '') + '</textarea>',
+      '<label>URL DA IMAGEM (opcional)</label>',
+      '<input type="text" value="' + escHtml(item.img || '') + '" placeholder="https://..." oninput="updateTrollItem(' + i + ',\'img\',this.value)">',
+      item.img ? '<img src="' + escHtml(item.img) + '" style="width:100%;max-height:80px;object-fit:cover;margin-top:6px;border:1px solid #002200;" onerror="this.style.display=\'none\'">' : '',
+      '</div>'
+    ].join('');
+  }).join('');
+}
+
+function addTrollItem() {
+  var cfg = getTrollCfg();
+  cfg.items.push({ title: '⚠ ALERTA DO SISTEMA', msg: '', img: '' });
+  renderTrollItems();
+}
+
+function removeTrollItem(i) {
+  var cfg = getTrollCfg();
+  cfg.items.splice(i, 1);
+  renderTrollItems();
+}
+
+function updateTrollItem(i, field, value) {
+  var cfg = getTrollCfg();
+  if (cfg.items[i]) cfg.items[i][field] = value;
+}
+
+// Override do savePost para salvar troll também
+var _origSavePost = window.savePost;
+window.savePost = function() {
+  if (currentTab === 'troll') {
+    saveTrollConfig();
+  } else {
+    _origSavePost && _origSavePost();
+  }
+};
+
+function saveTrollConfig() {
+  var cfg = getTrollCfg();
+  cfg.enabled   = document.getElementById('trollEnabled').checked;
+  cfg.maxPopups = parseInt(document.getElementById('trollMax').value) || 12;
+  db.troll = cfg;
+  var st = document.getElementById('saveStatus');
+  st.textContent = '[ SALVO — exporte o JSON ]';
+  st.className = 'save-status ok';
+  showToast('Config troll salva! Clique em EXPORTAR.');
 }
 
 function updateCounts() {

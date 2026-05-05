@@ -892,6 +892,156 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =====================
+     TROLL POPUP SYSTEM
+     ===================== */
+
+  var trollChaosActive = false;
+  var trollChaosIntervals = [];
+  var TROLL_CONFIG = null;
+
+  // Carrega config do troll do posts.json (já carregado depois), mas também lê aqui
+  function loadTrollConfig(db) {
+    TROLL_CONFIG = (db && db.troll) ? db.troll : null;
+  }
+
+  // Agenda aparecimento aleatório do pop-up inicial
+  function scheduleTrollPopup() {
+    // Aparece após 30-90 segundos aleatórios, mas só se troll config existir
+    var delay = (30 + Math.floor(Math.random() * 60)) * 1000;
+    setTimeout(function() {
+      var popup = document.getElementById('trollPopup');
+      if (popup && !trollChaosActive && TROLL_CONFIG && TROLL_CONFIG.enabled) {
+        popup.classList.remove('hidden');
+        // Chacoalha o popup para chamar atenção
+        popup.classList.add('troll-shake');
+        setTimeout(function() { popup.classList.remove('troll-shake'); }, 600);
+        // Re-agenda para aparecer de novo se recusado
+        scheduleTrollPopup();
+      }
+    }, delay);
+  }
+
+  window.trollRecusar = function() {
+    var popup = document.getElementById('trollPopup');
+    if (popup) popup.classList.add('hidden');
+  };
+
+  window.trollAceitar = function() {
+    var popup = document.getElementById('trollPopup');
+    if (popup) popup.classList.add('hidden');
+    if (!TROLL_CONFIG) return;
+    trollChaosActive = true;
+    startTrollChaos();
+  };
+
+  function startTrollChaos() {
+    var cfg = TROLL_CONFIG;
+    if (!cfg) return;
+
+    // Glitch imediato
+    triggerGlitch(800);
+
+    var items = cfg.items || [];
+    if (!items.length) return;
+
+    var container = document.getElementById('trollChaosContainer');
+    var spawnCount = 0;
+    var maxPopups  = cfg.maxPopups || 12;
+
+    function spawnPopup() {
+      if (!trollChaosActive || spawnCount >= maxPopups) {
+        stopTrollChaos();
+        return;
+      }
+
+      var item = items[Math.floor(Math.random() * items.length)];
+      var popup = document.createElement('div');
+      popup.className = 'troll-chaos-popup';
+
+      // Posição aleatória na tela
+      var maxX = Math.max(window.innerWidth  - 280, 10);
+      var maxY = Math.max(window.innerHeight - 200, 10);
+      popup.style.left = Math.floor(Math.random() * maxX) + 'px';
+      popup.style.top  = Math.floor(Math.random() * maxY) + 'px';
+
+      var inner = '';
+      inner += '<div class="troll-chaos-bar">';
+      inner += '<span>' + (item.title || '⚠ ALERTA') + '</span>';
+      inner += '<span class="troll-chaos-x" onclick="this.closest(\'.troll-chaos-popup\').remove()">✕</span>';
+      inner += '</div>';
+
+      if (item.img) {
+        inner += '<img src="' + item.img + '" alt="" style="width:100%;max-height:140px;object-fit:cover;display:block;">';
+      }
+
+      if (item.msg) {
+        inner += '<div class="troll-chaos-msg">' + item.msg + '</div>';
+      }
+
+      inner += '<button class="troll-chaos-btn" onclick="this.closest(\'.troll-chaos-popup\').remove()">OK</button>';
+
+      popup.innerHTML = inner;
+      container.appendChild(popup);
+      spawnCount++;
+
+      // Glitch a cada popup
+      if (spawnCount % 3 === 0) triggerGlitch(200);
+    }
+
+    // Spawna popups em intervalos crescentemente rápidos
+    var delay = 600;
+    for (var i = 0; i < maxPopups; i++) {
+      (function(d) {
+        var iv = setTimeout(spawnPopup, d);
+        trollChaosIntervals.push(iv);
+      })(delay);
+      delay += Math.max(150, 600 - i * 40); // acelera
+    }
+
+    // Para automaticamente após tudo spawnar
+    var stopAt = delay + 3000;
+    var stopIv = setTimeout(function() {
+      stopTrollChaos();
+    }, stopAt);
+    trollChaosIntervals.push(stopIv);
+  }
+
+  function stopTrollChaos() {
+    trollChaosActive = false;
+    trollChaosIntervals.forEach(function(iv) { clearTimeout(iv); });
+    trollChaosIntervals = [];
+    // Limpa popups restantes com fade
+    var container = document.getElementById('trollChaosContainer');
+    if (container) {
+      var popups = container.querySelectorAll('.troll-chaos-popup');
+      popups.forEach(function(p) {
+        p.style.transition = 'opacity 1s';
+        p.style.opacity = '0';
+        setTimeout(function() { if (p.parentNode) p.parentNode.removeChild(p); }, 1000);
+      });
+    }
+    // Re-agenda o popup inicial depois de um tempo
+    setTimeout(scheduleTrollPopup, 120000); // 2 min depois começa de novo
+  }
+
+  // Expõe para o carregador de posts.json
+  window._initTrollSystem = function(db) {
+    loadTrollConfig(db);
+    // Só agenda após o welcome screen ser fechado
+    var enterBtn = document.getElementById('wcEnterBtn');
+    if (enterBtn) {
+      enterBtn.addEventListener('click', function() {
+        // Welcome screen fecha em ~650ms, agenda depois disso
+        setTimeout(scheduleTrollPopup, 1000);
+      }, { once: true });
+    } else {
+      // Se não tem welcome screen, agenda direto
+      scheduleTrollPopup();
+    }
+  };
+
+
+  /* =====================
      INIT
      ===================== */
   startTyping();

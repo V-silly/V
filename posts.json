@@ -79,7 +79,7 @@
       "id": "m1",
       "date": "2026-05-03T20:00",
       "title": "In the Backseat - Arcade Fire",
-      "content": "Essa é, sem dúvida, uma das melhores músicas que já ouvi. Extremamente bem construída, carrega um significado profundo ao retratar o amadurecimento forçado diante de perdas familiares e o momento em que deixamos de ser apenas “passageiros” da vida para assumir o controle. Para mim, é a melhor faixa do álbum Funeral, da Arcade Fire.",
+      "content": "Essa é, sem dúvida, uma das melhores músicas que já ouvi. Extremamente bem construída, carrega um significado profundo ao retratar o amadurecimento forçado diante de perdas familiares e o momento em que deixamos de ser apenas \"passageiros\" da vida para assumir o controle. Para mim, é a melhor faixa do álbum Funeral, da Arcade Fire.",
       "media": [],
       "spotify": "https://open.spotify.com/embed/track/0O8Ymlu03OqEX5XU5p8Rw3?utm_source=generator",
       "playerId": "player3"
@@ -87,8 +87,8 @@
     {
       "id": "m3",
       "date": "2026-05-03T21:30",
-      "title": "It's Called:Freefall - Raibow Kitten Surprise",
-      "content": "Essa música é cheia de simbolismos e não é fácil de entender de imediato. No começo, eu interpretava “freefall”, ou queda livre, como simplesmente deixar tudo para trás, ou até mesmo como uma metáfora para a morte. Mas, analisando melhor, passei a enxergar de outra forma: a canção parece representar uma ruptura interna, uma quebra de identidade. A “queda livre” seria justamente esse momento em que você deixa de sustentar uma versão de si mesmo ou da realidade e precisa encarar o que vem depois.\n\nEsse processo pode ser doloroso, mas também abre espaço para transformação. A música sugere que, às vezes, é preciso perder o controle para realmente entender quem você é. Nem sempre existe um chão imediato ou uma resolução clara, muitas vezes o que existe é apenas o processo de cair e aprender a lidar com isso. Esse é o meu ponto de vista.",
+      "title": "It's Called:Freefall - Rainbow Kitten Surprise",
+      "content": "Essa música é cheia de simbolismos e não é fácil de entender de imediato. No começo, eu interpretava \"freefall\", ou queda livre, como simplesmente deixar tudo para trás, ou até mesmo como uma metáfora para a morte. Mas, analisando melhor, passei a enxergar de outra forma: a canção parece representar uma ruptura interna, uma quebra de identidade. A \"queda livre\" seria justamente esse momento em que você deixa de sustentar uma versão de si mesmo ou da realidade e precisa encarar o que vem depois.\n\nEsse processo pode ser doloroso, mas também abre espaço para transformação. A música sugere que, às vezes, é preciso perder o controle para realmente entender quem você é. Nem sempre existe um chão imediato ou uma resolução clara, muitas vezes o que existe é apenas o processo de cair e aprender a lidar com isso. Esse é o meu ponto de vista.",
       "media": [],
       "spotify": "https://open.spotify.com/embed/track/474uVhyGgK5MtY9gMcDgGl?utm_source=generator",
       "playerId": "player2"
@@ -122,5 +122,60 @@
         }
       ]
     }
-  ]
+  ],
+  "daily": {
+    "url": "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3N1dWJnZm4ydTVjaXJzZmJ6aDVmNTczaGtrMjNuN3F2NDVqNzFwYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/CE6a54bkGIgJqtvlWZ/giphy.gif",
+    "caption": "fat horse lore"
+  },
+  "troll": {
+    "enabled": true,
+    "maxPopups": 200,
+    "items": [
+      {
+        "title": "⚠ ARQUIVO CORROMPIDO",
+        "msg": "Erro crítico detectado no sistema. Contate o suporte imediatamente.",
+        "img": ""
+      },
+      {
+        "title": "🔒 ACESSO BLOQUEADO",
+        "msg": "Sua sessão foi comprometida. Clique OK para restaurar.",
+        "img": ""
+      },
+      {
+        "title": "⚠ ALERTA PARA O PUNHETAÇO AO BOLSONARO ",
+        "msg": "VC FOI CONVIDADO VENHA PARTICIPAR",
+        "img": "https://i.pinimg.com/736x/3f/28/ea/3f28ea85b93e84645fda09a326c5f753.jpg"
+      },
+      {
+        "title": "⚠ DOE DINHEIRO PARA O DONO DO SITE POR FAVOR DOE",
+        "msg": "DOE PARA MEU PIX POR FAVOR",
+        "img": "https://i.pinimg.com/736x/19/37/4c/19374c08fd2347426e768d0092ff9e14.jpg"
+      },
+      {
+        "title": "⚠ BOA SAMUEL TO GOSTANDO DE VER ",
+        "msg": "Boa Samuel to gostando de ver ",
+        "img": "https://i.pinimg.com/736x/5f/21/81/5f218167762eee361fa56b0f874e96bd.jpg"
+      },
+      {
+        "title": "⚠ BISNAGA",
+        "msg": "BISNAGA",
+        "img": "https://i.pinimg.com/736x/7f/77/77/7f7777ea243871b0ca474945659db644.jpg"
+      },
+      {
+        "title": "⚠ ALERTA DE SIRIKUTICOS",
+        "msg": "SIRIKUTICOS SIRIKUTICOS SIRIKUTICOS SIRIKUTICOS SIRIKUTICOS SIRIKUTICOS SIRIKUTICOS",
+        "img": "https://i.pinimg.com/736x/06/c0/55/06c05586de3aefbd432a1774303c3aa4.jpg"
+      },
+      {
+        "title": "⚠ BLEEEEEHHHHHHHHH",
+        "msg": "BLEEEEEEHHHHHHHHHH",
+        "img": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTZhajJyYWVncWtjdXNpMzlldmF2YXN3NDg4bmQzanBtM2ZyNDZyeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/GbAK1JeJbXJ1yfE0Gx/giphy.gif"
+      },
+      {
+        "title": "⚠ O FARAÓ PRECISA DE SUA AJUDE",
+        "msg": "PRECISO DE AJUDA PARA VOLTAR PARA O EGITO ME DOE AGORA MUITOS DINHEIROS",
+        "img": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWFqdm94cWd0MTFpeDd3YmJ1YWk4NHdneHo0bzE2NDdxNWgyNDJ0ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/aBW9YyswmydvlKf7ZU/giphy.gif"
+      }
+    ]
+  }
 }

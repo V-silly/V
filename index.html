@@ -70,14 +70,46 @@
   <!-- PIXEL BREAK OVERLAY -->
   <div id="pixelBreak" class="pixel-break hidden"></div>
 
+  <!-- CURSOR PERSONALIZADO -->
+  <div id="v-cursor">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="14" r="8" stroke="#00ff00" stroke-width="1.2"/>
+      <line x1="14" y1="2"  x2="14" y2="8"  stroke="#00ff00" stroke-width="1.2"/>
+      <line x1="14" y1="20" x2="14" y2="26" stroke="#00ff00" stroke-width="1.2"/>
+      <line x1="2"  y1="14" x2="8"  y2="14" stroke="#00ff00" stroke-width="1.2"/>
+      <line x1="20" y1="14" x2="26" y2="14" stroke="#00ff00" stroke-width="1.2"/>
+    </svg>
+  </div>
+  <div id="v-cursor-dot"></div>
+
+  <!-- BUSCA GLOBAL -->
+  <div id="globalSearchOverlay" class="hidden">
+    <div class="gsearch-box">
+      <div class="gsearch-input-row">
+        <span class="gsearch-prefix">grep -r "</span>
+        <input type="text" id="globalSearchInput" placeholder="buscar em tudo..." autocomplete="off">
+        <span style="color:var(--green-dim);">"</span>
+      </div>
+      <div class="gsearch-hint">ESC para fechar &nbsp;|&nbsp; ENTER para ir ao resultado</div>
+      <div class="gsearch-results" id="globalSearchResults"></div>
+    </div>
+  </div>
+
   <div class="topbar glow">
     root@V:~$ ./system
+    <button onclick="toggleGlobalSearch()" title="Busca global [Ctrl+K]" style="font-size:13px;letter-spacing:1px;">🔍 grep</button>
+    <button id="readModeBtn" class="read-mode-btn" onclick="toggleReadMode()" title="Modo Leitura">📖 leitura</button>
     <button onclick="toggleMusic()" aria-label="Tocar/Pausar música">🔊</button>
   </div>
 
   <div class="container">
 
     <div class="sidebar">
+      <!-- FOTO/GIF DO DIA -->
+      <div id="dailyMedia" style="display:none;">
+        <img id="dailyMediaImg" src="" alt="foto do dia">
+        <div class="daily-caption" id="dailyCaption"></div>
+      </div>
       <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHN0Y2J0cDdqaGhrYmNodnluZjBrZDU1M210bHl2NjRxNHAwMHN0NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/sBffRwz30Z81xlBw4i/giphy.gif" alt="Avatar animado">
       <button onclick="showTab('diario')">Diário</button>
       <button onclick="showTab('jogos')">Jogos</button>
@@ -200,6 +232,7 @@
         <div class="entry">Patch 8 - Tela de boas-vindas integrada</div>
         <div class="entry">Patch 9 - Coisas novas????</div>
         <div class="entry">Patch 10 - Cima Cima Baixo Baxio Esquerda Direita Esquerda Direita B A</div>
+        <div class="entry">Muitas novidades. MUITAS NOVIDADESSSSSSSS</div>
       </div>
 
       <!-- ===== SOBRE ===== -->
@@ -215,15 +248,40 @@
     </div>
   </div>
 
+  <!-- ===================== TROLL POPUP INICIAL ===================== -->
+  <div id="trollPopup" class="troll-popup hidden">
+    <div class="troll-inner">
+      <div class="troll-topbar">
+        <span>⚠ AVISO DO SISTEMA</span>
+        <span class="troll-x" onclick="trollRecusar()">✕</span>
+      </div>
+      <div class="troll-body">
+        <div class="troll-icon">🛡️</div>
+        <div class="troll-title">VÍRUS DETECTADO!</div>
+        <div class="troll-msg">Seu computador está em PERIGO.<br>Clique em ACEITAR para iniciar a limpeza imediatamente.</div>
+        <div class="troll-sub">© 2026 V-Security™ — Proteção Total</div>
+        <div class="troll-btns">
+          <button class="troll-btn-accept" onclick="trollAceitar()">✔ ACEITAR E LIMPAR AGORA</button>
+          <button class="troll-btn-refuse" onclick="trollRecusar()">Recusar (não recomendado)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== CONTAINER DE POP-UPS DO CAOS ===================== -->
+  <div id="trollChaosContainer"></div>
+
   <script src="script.js"></script>
 
   <!-- ===== CARREGADOR DINÂMICO DE POSTS ===== -->
   <script>
   (function() {
 
+    var DB = null; // banco global acessível pra busca global
+
     function fmtDate(dateStr) {
       if (!dateStr) return '';
-      const d = new Date(dateStr);
+      var d = new Date(dateStr);
       return '[LOG ' +
         String(d.getDate()).padStart(2,'0') + '/' +
         String(d.getMonth()+1).padStart(2,'0') + ' ' +
@@ -240,7 +298,10 @@
 
     function renderPost(p, isMusic) {
       var content = p.content ? p.content.replace(/\n/g, '<br>') : '';
-      var html = '<div class="entry" data-search="' + (p.title || '') + '">';
+      // id para âncora: ex #d-d1
+      var anchorId = 'post-' + (p.id || '');
+      var html = '<div class="entry" id="' + anchorId + '" data-search="' + (p.title || '') + '" data-post-id="' + (p.id||'') + '">';
+      html += '<span style="float:right;font-size:10px;color:#003300;letter-spacing:1px;cursor:pointer;" onclick="copyAnchor(\'' + anchorId + '\')" title="Copiar link">#</span>';
       html += '<b style="color:#00aa00;font-size:12px;">' + fmtDate(p.date) + '</b><br>';
       html += '<p class="glow">' + (p.title || '') + '</p>';
       if (content) html += '<p>' + content + '</p>';
@@ -258,9 +319,212 @@
       return html;
     }
 
+    // Âncora: copia URL com hash e destaca o post
+    window.copyAnchor = function(anchorId) {
+      var url = location.origin + location.pathname + '#' + anchorId;
+      navigator.clipboard.writeText(url).catch(function(){});
+      var el = document.getElementById(anchorId);
+      if (el) {
+        el.classList.remove('anchor-highlight');
+        void el.offsetWidth;
+        el.classList.add('anchor-highlight');
+        setTimeout(function(){ el.classList.remove('anchor-highlight'); }, 1600);
+      }
+      // mini toast
+      var t = document.createElement('div');
+      t.textContent = 'link copiado';
+      t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#000;border:1px solid #00ff00;color:#00ff00;font-family:"Courier New",monospace;font-size:11px;padding:7px 18px;letter-spacing:2px;z-index:9999;';
+      document.body.appendChild(t);
+      setTimeout(function(){ t.remove(); }, 2000);
+    };
+
+    // Navegar por âncora na URL
+    function handleAnchor() {
+      var hash = location.hash.replace('#','');
+      if (!hash || !hash.startsWith('post-')) return;
+      var el = document.getElementById(hash);
+      if (!el) return;
+
+      // Descobre qual aba contém o post e abre ela
+      var parent = el.closest('.main > div');
+      if (parent && parent.id) {
+        // Abre a aba sem pixel break pra não atrasar
+        document.querySelectorAll('.main > div').forEach(function(d){ d.classList.add('hidden'); });
+        parent.classList.remove('hidden');
+      }
+      setTimeout(function(){
+        el.scrollIntoView({ behavior:'smooth', block:'center' });
+        el.classList.add('anchor-highlight');
+        setTimeout(function(){ el.classList.remove('anchor-highlight'); }, 1600);
+      }, 300);
+    }
+
+    // =====================
+    // BUSCA GLOBAL
+    // =====================
+    var gsearchOpen = false;
+
+    window.toggleGlobalSearch = function() {
+      var overlay = document.getElementById('globalSearchOverlay');
+      gsearchOpen = !gsearchOpen;
+      overlay.classList.toggle('hidden', !gsearchOpen);
+      if (gsearchOpen) {
+        document.getElementById('globalSearchInput').value = '';
+        document.getElementById('globalSearchResults').innerHTML = '';
+        setTimeout(function(){ document.getElementById('globalSearchInput').focus(); }, 50);
+      }
+    };
+
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        window.toggleGlobalSearch();
+      }
+      if (e.key === 'Escape' && gsearchOpen) {
+        window.toggleGlobalSearch();
+      }
+    });
+
+    document.getElementById('globalSearchOverlay').addEventListener('click', function(e){
+      if (e.target === this) window.toggleGlobalSearch();
+    });
+
+    document.getElementById('globalSearchInput').addEventListener('input', function() {
+      runGlobalSearch(this.value.trim());
+    });
+
+    document.getElementById('globalSearchInput').addEventListener('keydown', function(e){
+      if (e.key === 'Enter') {
+        var first = document.querySelector('.gsearch-result');
+        if (first) first.click();
+      }
+    });
+
+    var TAB_LABELS = { diario:'DIÁRIO', jogos:'JOGOS', musicas:'MÚSICAS', filmes:'FILMES' };
+
+    function runGlobalSearch(q) {
+      var res = document.getElementById('globalSearchResults');
+      if (!q || q.length < 2) { res.innerHTML = ''; return; }
+      if (!DB) { res.innerHTML = '<div class="gsearch-noresult">carregando posts...</div>'; return; }
+
+      var results = [];
+      var ql = q.toLowerCase();
+
+      Object.keys(DB).forEach(function(tab) {
+        (DB[tab] || []).forEach(function(p) {
+          var hay = ((p.title||'') + ' ' + (p.content||'')).toLowerCase();
+          if (hay.includes(ql)) {
+            var idx = hay.indexOf(ql);
+            var snippet = (p.content || p.title || '').substring(Math.max(0, idx-30), idx+80);
+            results.push({ tab: tab, post: p, snippet: snippet });
+          }
+        });
+      });
+
+      if (!results.length) {
+        res.innerHTML = '<div class="gsearch-noresult">grep: nenhum resultado para "' + q + '"</div>';
+        return;
+      }
+
+      function hl(str) {
+        var re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+        return str.replace(re, '<span class="gsearch-highlight">$1</span>');
+      }
+
+      res.innerHTML = results.map(function(r) {
+        return '<div class="gsearch-result" onclick="gotoResult(\'' + r.tab + '\',\'post-' + r.post.id + '\')">' +
+          '<div class="gsearch-result-tab">[' + (TAB_LABELS[r.tab]||r.tab) + ']</div>' +
+          '<div class="gsearch-result-title">' + hl(r.post.title || '') + '</div>' +
+          '<div class="gsearch-result-snippet">...' + hl(r.snippet) + '...</div>' +
+          '</div>';
+      }).join('');
+    }
+
+    window.gotoResult = function(tab, anchorId) {
+      window.toggleGlobalSearch();
+      // Abre a aba
+      if (window.showTab) {
+        window.showTab(tab);
+      }
+      // Aguarda render e faz scroll
+      setTimeout(function(){
+        var el = document.getElementById(anchorId);
+        if (el) {
+          el.scrollIntoView({ behavior:'smooth', block:'center' });
+          el.classList.add('anchor-highlight');
+          setTimeout(function(){ el.classList.remove('anchor-highlight'); }, 1600);
+        }
+      }, 400);
+    };
+
+    // =====================
+    // MODO LEITURA
+    // =====================
+    window.toggleReadMode = function() {
+      document.body.classList.toggle('read-mode');
+      var btn = document.getElementById('readModeBtn');
+      if (btn) btn.classList.toggle('active', document.body.classList.contains('read-mode'));
+    };
+
+    // =====================
+    // CURSOR PERSONALIZADO
+    // =====================
+    (function initCursor() {
+      var cursor = document.getElementById('v-cursor');
+      var dot    = document.getElementById('v-cursor-dot');
+      var mx = -100, my = -100;
+      var dx = -100, dy = -100;
+
+      document.addEventListener('mousemove', function(e) {
+        mx = e.clientX; my = e.clientY;
+        dot.style.left = mx + 'px';
+        dot.style.top  = my + 'px';
+      });
+
+      // Cursor principal com leve lag
+      function animateCursor() {
+        dx += (mx - dx) * 0.18;
+        dy += (my - dy) * 0.18;
+        cursor.style.left = dx + 'px';
+        cursor.style.top  = dy + 'px';
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      // Hover em elementos clicáveis
+      document.addEventListener('mouseover', function(e) {
+        var t = e.target;
+        if (t.closest('button,a,input,textarea,[onclick],.entry,.link-card,.gsearch-result,.post-item')) {
+          document.body.classList.add('cursor-hover');
+        }
+      });
+      document.addEventListener('mouseout', function(e) {
+        var t = e.target;
+        if (t.closest('button,a,input,textarea,[onclick],.entry,.link-card,.gsearch-result,.post-item')) {
+          document.body.classList.remove('cursor-hover');
+        }
+      });
+    })();
+
+    // =====================
+    // FETCH POSTS + FOTO DO DIA
+    // =====================
     fetch('posts.json?v=' + Date.now())
       .then(function(r) { return r.json(); })
       .then(function(db) {
+        DB = db;
+
+        // FOTO/GIF DO DIA
+        if (db.daily && db.daily.url) {
+          var wrap = document.getElementById('dailyMedia');
+          var img  = document.getElementById('dailyMediaImg');
+          var cap  = document.getElementById('dailyCaption');
+          if (wrap && img) {
+            img.src = db.daily.url;
+            if (cap) cap.textContent = db.daily.caption || '';
+            wrap.style.display = '';
+          }
+        }
 
         // DIÁRIO
         var diaryEl = document.getElementById('diaryEntries');
@@ -286,6 +550,11 @@
           filmesEl.innerHTML = db.filmes.map(function(p) { return renderPost(p, false); }).join('');
         }
 
+        // Âncora na URL (roda após posts renderizados)
+        setTimeout(handleAnchor, 100);
+
+        // Inicia sistema de troll popup
+        if (window._initTrollSystem) window._initTrollSystem(db);
       })
       .catch(function(e) {
         console.warn('posts.json não encontrado ou inválido:', e);
