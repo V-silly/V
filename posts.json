@@ -1,6 +1,19 @@
 {
   "diario": [
     {
+      "id": "dmoul0k26",
+      "date": "2026-05-06T21:34",
+      "title": "Quarto dia.....",
+      "content": "Irei resumir o meu dia em apenas uma imagem",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/d5/62/b7/d562b7493e30d1467a1761f5c58f74d5.jpg",
+          "width": 200
+        }
+      ]
+    },
+    {
       "id": "dmota6enm",
       "date": "2026-05-05T23:10",
       "title": "Terceiro dia...",
