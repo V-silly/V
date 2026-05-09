@@ -114,6 +114,29 @@
   ],
   "jogos": [
     {
+      "id": "jmoxx4gpy",
+      "date": "2026-05-09T05:28",
+      "title": "The Count Lucanor",
+      "content": "Esse é um dos poucos jogos que tenho 100% na Steam e posso assegurar que é um tremendo jogo. Tem vários finais e segredos, e a arte dele é incrível. Comprei em um bundle da desenvolvedora que estava em promoção e vinha junto com outro jogo que eu estava interessado em jogar, chamado Yuppie Psycho. Porém, esse jogo me chamou tanta atenção que eu praticamente nem joguei direito o Yuppie.\n\nA premissa é muito simples, e eu fiz tudo em cerca de 8 horas de gameplay. Não vou lembrar 100% das coisas porque a última vez que abri esse jogo foi exatamente no dia 22 de junho de 2021, mas a história começa com Hans, o personagem principal, e sua mãe. Você tem a brilhante ideia de abandonar sua casa e partir em uma aventura, já que eles eram muito pobres, e sua mãe ainda te dá um pedaço de pão para você não passar fome.\n\nAssim, Hans parte em aventura pelas terras medievais, ajudando pessoas e até mesmo uma ovelha que estava perdida, para mais tarde descobrirmos que essa ovelha fazia parte de um culto de ovelhas que ficam de pé e matam pessoas. A gente acaba em um castelo, atraído por um kobold azul que promete riqueza em troca de uma simples tarefa: descobrir o verdadeiro nome dele.\n\nDentro dessa fortaleza são apresentados diversos personagens e vários puzzles, tudo em um ambiente bem “horror game da vida”. Dou nota 10 para esse jogo. Ele é simples, cumpre o que promete, além de ser baratinho e muito bem feito.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/1200x/a4/5c/71/a45c71cae3ab3ab5419553de9bff804f.jpg",
+          "width": 400
+        },
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/d3/e1/0d/d3e10d55ea3245dfb430578307e57c93.jpg",
+          "width": 400
+        },
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/1200x/f7/6d/e5/f76de58ac730ff89904f72a9dc873b3b.jpg",
+          "width": 377
+        }
+      ]
+    },
+    {
       "id": "jmot5w7q6",
       "date": "2026-05-05T21:49",
       "title": "Cyberpunk 2077",
