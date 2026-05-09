@@ -114,6 +114,37 @@
   ],
   "jogos": [
     {
+      "id": "jmoyhs4ng",
+      "date": "2026-05-09T15:20",
+      "title": "Hades",
+      "content": "EU AMO ESSE JOGO E NOTA 10 PARA ESSA OBRA É MUITO BAIXA.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/1200x/bd/b8/ec/bdb8eca07de123c1c9f6e0801c817e6a.jpg",
+          "width": 200
+        }
+      ]
+    },
+    {
+      "id": "jmoyhnssk",
+      "date": "2026-05-09T15:14",
+      "title": "Elden Ring",
+      "content": "Não irei falar nada sobre o melhor jogo do mundo, apenas irei deixar minha analise da steam aqui.\n\nCaminhei por vales desolados e campos que choram sombra, até encontrar IGON, um homem cuja voz é 90% ódio, 10% pulmão. Nos tornamos irmãos de batalha, unidos não por amizade, mas por um grito em comum \"BAYYYYYYYYYLE!\"\n\nLutar contra Bayle, o dragão, foi como tentar espancar um furacão com uma colher. A criatura voava, cuspia morte e me olhava com a arrogância de quem sabe que eu sou só um inseto com uma espada brilhante.\n\nMas Igon… oh, Igon. Ele gritava como um verdadeiro herói em chamas e atacava como se estivesse tentando morder o próprio destino.\n\nMorri. Voltei. Morri de novo. Voltei com raiva. Em algum momento, perdi a noção de quem era o verdadeiro monstro, se era o dragão, ou a minha teimosia.\n\nMas no fim, entre brasas e berros, vencemos. Bayle caiu, Igon riu, e eu… fiquei parado olhando o céu, tentando entender se tudo aquilo foi uma luta, um sonho, ou uma metáfora sobre a vida.\n\nVeredito: 10/10. Igon pode descansar em paz. Já valeu o trauma.\n\nNo final vendo tudo agora e lembrando desse momento, eu acabei de perceber que nós somos a invocação nessa batalha.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/ed/f9/fe/edf9fe77150770e4f01773e65af16cfa.jpg",
+          "width": 200
+        },
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/01/9d/54/019d5466048c477a470e19918faae41a.jpg",
+          "width": 334
+        }
+      ]
+    },
+    {
       "id": "jmoxx4gpy",
       "date": "2026-05-09T05:28",
       "title": "The Count Lucanor",
@@ -145,17 +176,17 @@
         {
           "type": "image",
           "url": "https://i.pinimg.com/736x/28/17/44/2817445d54e64d42da7e6a2f8258a7cb.jpg",
-          "width": 200
+          "width": 396
         },
         {
           "type": "image",
           "url": "https://i.pinimg.com/736x/9f/2a/81/9f2a81fe182b1c698a0482dbac68e251.jpg",
-          "width": 202
+          "width": 399
         },
         {
           "type": "image",
           "url": "https://i.pinimg.com/1200x/be/77/df/be77df5dda65645c60c954151ddb8003.jpg",
-          "width": 147
+          "width": 291
         }
       ]
     }
@@ -199,6 +230,163 @@
     }
   ],
   "filmes": [
+    {
+      "id": "fmoyhew8a",
+      "date": "2026-05-09T15:03",
+      "title": "Goodbye Eri",
+      "content": "Goodbye, Eri não é uma série nem um filme, mas sim um mangá. Porém, eu simplesmente não consigo explicar exatamente o porquê de gostar tanto disso ou o motivo de ficar tão preso aos personagens. Eu não sei o que o Tatsuki Fujimoto fez, mas com certeza criou uma verdadeira obra de arte.\n\nTalvez seja porque existe esse elemento em que o personagem principal fica gravando e registrando as pessoas que ama, algo com que eu também me identifico bastante. Ou talvez seja pela paixão envolvendo edição e filmes, que nem chega a ser o foco principal da obra, mas está presente em pequenos detalhes que acabam tornando tudo muito mais especial.\n\nA ideia de acompanhar momentos registrados pela perspectiva do protagonista e essa necessidade de guardar os últimos momentos de alguém, junto ao fato de mostrar apenas as partes boas da vida dessa pessoa, é algo simplesmente incrível.\n\nO jeito da arte também me chama muita atenção. Ela é estranha, quase realista em alguns momentos, e sinceramente eu nem sei explicar direito. A própria Eri é uma personagem que prende completamente a minha atenção, e o modo como tudo vai se encaixando até chegar ao final, que muita gente considera confuso, é incrível.\n\nSinceramente, é uma obra de arte de verdade e talvez no futuro eu compre uma câmera e registre as pessoas que estão ao meu lado, para no final eu fazer um compilado da vida e imortalizar tudo de alguma forma e coloque uma explosão no final pra ficar irado.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/96/77/15/9677152309881a125670cb23c61790c4.jpg",
+          "width": 200
+        },
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/f5/d7/df/f5d7df724e81e08c19c385a5527093cd.jpg",
+          "width": 348
+        }
+      ]
+    },
+    {
+      "id": "fmoygcztf",
+      "date": "2026-05-09T14:36",
+      "title": "True Detective",
+      "content": "True Detective é simplesmente uma das melhores séries policiais que eu já assisti, mas sendo sincero, para mim só a primeira temporada realmente importa. Não que as outras sejam ruins, mas a história de Rust Cohle e Marty Hart é algo tão único que parece impossível de replicar. E até faz sentido, já que cada temporada conta uma história completamente diferente.\n\nO que mais me pegou na série não foi apenas a investigação criminal, mas todas as indagações existenciais e filosóficas que acontecem no meio dela. Rust não é apenas um detetive inteligente, ele é praticamente um homem destruído pela própria visão da vida. Toda vez que ele fala, parece que está desmontando a existência humana peça por peça, mostrando um mundo vazio, cruel e sem sentido.\n\nA série aborda muito essa ideia de que a consciência humana pode ter sido um erro da evolução, algo que apenas nos fez sofrer mais. E isso fica ainda mais pesado quando Rust começa a falar sobre tempo, existência e até conceitos parecidos com a Teoria-M, aquela ideia de múltiplas dimensões e realidades coexistindo. A forma como a série mistura investigação criminal com essas reflexões filosóficas é simplesmente absurda.\n\nE o mais incrível é que, mesmo com toda essa visão pessimista, você consegue entender o personagem. Principalmente quando ele diz que não é bom para as pessoas ao redor dele, não porque seja alguém maldoso, mas porque é uma pessoa extremamente difícil de lidar e consumida pelos próprios pensamentos. Essa frase resume perfeitamente quem ele é, alguém quebrado internamente, isolado e incapaz de se conectar normalmente com os outros.\n\nA atmosfera da série também é inacreditável. Aqueles cenários vazios, o clima decadente da Louisiana, os diálogos longos e filosóficos… tudo parece pesado e desconfortável da melhor maneira possível. A investigação vai ficando cada vez mais sombria, e você sente que os personagens estão sendo consumidos junto com o caso.\n\nÉ uma série sobre assassinatos, mas também sobre solidão, culpa, religião, trauma e o vazio da existência humana.\n\nSinceramente, apenas assistam à primeira temporada. É uma experiência que fica na cabeça por muito tempo depois que termina.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/45/cb/45/45cb45e351c3e5491bcad3fcf290a00c.jpg",
+          "width": 200
+        },
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/6f/00/c8/6f00c8a2bde70893f2f959ec57e8069a.jpg",
+          "width": 335
+        },
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/1200x/4b/7b/b7/4b7bb7d1c84cdb93b16db78513708496.jpg",
+          "width": 520
+        }
+      ]
+    },
+    {
+      "id": "fmoyfs165",
+      "date": "2026-05-09T14:14",
+      "title": "Mr. Robot",
+      "content": "Se eu tivesse assistido Mr. Robot quando era adolescente, talvez eu tivesse me tornado alguém diferente hoje. Cada episódio possui um nome único inspirado no mundo da tecnologia, algo que se conecta perfeitamente com Elliot Alderson, um programador e especialista em segurança cibernética extremamente inteligente, mas socialmente isolado, depressivo e viciado em morfina.\n\nDurante toda a série, eu me perguntava como tudo estava escalando tão rápido e como, entre muitas aspas, tudo parecia estar dando certo. Desde o convite de Mr. Robot para Elliot até toda a trama da fsociety tentando destruir o sistema corporativo que controla o mundo através da internet, tudo parecia caminhar para algo gigantesco.\n\nMas chega um momento em que você começa a se perguntar se realmente pode confiar em tudo o que está vendo, até porque toda a narrativa é construída pela visão do Elliot. E então vem o plot twist.\n\nFoi exatamente aí que meu mundo quebrou junto com o mundo da própria obra, como uma colisão entre duas realidades diferentes.\n\nSinceramente, apenas assistam. É algo surreal.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/2f/1b/2c/2f1b2cdcfc0b54a14920bb6418611ec8.jpg",
+          "width": 200
+        }
+      ]
+    },
+    {
+      "id": "fmoyfctgb",
+      "date": "2026-05-09T14:04",
+      "title": "Hannibal",
+      "content": "Eu acho que Hannibal é uma das séries mais bem construídas filosoficamente falando, mostrando como um ser humano pode se tornar completamente consumido pelas próprias ideias e virtudes inabaláveis. Tudo nela é perfeito e extremamente artístico. Cada prato apresentado foi analisado e criado por um chef de verdade para compor a série, e cada cena de crime, assim como cada expressão do serial killer, é inacreditável de tão bem feita.\n\nDefinitivamente, é uma das melhores séries de investigação criminal já feitas.\n\nE não pensem que estou endeusando um criminoso, até porque é uma obra totalmente ficcional. O que realmente vale a pena apreciar é a forma como a série trabalha temas como vida, morte, obsessão, identidade e a complexidade da mente humana.\n\nEssa obra não incita sair matando ou se alimentando de seres humanos, obviamente, mas na ideia de aprender a aproveitar as pequenas coisas da vida e entender como a nossa existência é frágil e passageira.\n\nAté porque a própria morte é o que nos força a viver cada dia ao máximo e dar valor a cada segundo da nossa existência.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/9f/f6/ee/9ff6eeddd98f30fc36d5858c3e61fea3.jpg",
+          "width": 200
+        }
+      ]
+    },
+    {
+      "id": "fmoyf0jyn",
+      "date": "2026-05-09T13:59",
+      "title": "Breaking Bad",
+      "content": "Hora de falar de uma das melhores séries já criadas. Não vou falar muito, apenas aconselhar que assistam. É aquele tipo de série que simplesmente não vai existir novamente. Você termina Breaking Bad com um enorme gosto de “quero mais” e percebe que dificilmente vai encontrar outra igual.\n\nEu poderia falar sobre Walter White e como ele é um homem consumido pelo próprio ego, orgulho e ambição, alguém que aos poucos vai perdendo completamente sua humanidade. Ou então sobre Jesse Pinkman, um cara ingênuo e perdido que constantemente cai nas manipulações do parceiro enquanto tenta encontrar algum sentido para a própria vida.\n\nMas, sinceramente, só assistindo para sentir tudo o que essa obra consegue oferecer.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/7d/06/09/7d06099930ae49edd9608b6c2dc9b948.jpg",
+          "width": 200
+        }
+      ]
+    },
+    {
+      "id": "fmoyerhia",
+      "date": "2026-05-09T13:49",
+      "title": "Dexter",
+      "content": "Claro que tinha que ter Dexter. Nem vou falar muito, porque a série explodiu de popularidade de um tempo para cá. Eu já tinha assistido quando era adolescente e, na época, não tinha gostado tanto, mas decidi dar outra chance e acabei gostando muito.\n\nMeus gostos pessoais vivem em constante metamorfose, e isso é incrível, porque pude apreciar Dexter de uma forma completamente diferente. E que série, meus amigos... realmente muito boa e extremamente recomendável.\n\nA história vai avançando conforme o círculo investigativo começa a se fechar ao redor do Dexter, e, até lá, a trama só cresce, se intensifica e coloca o personagem em vários dilemas cada vez mais pesados e boa parte da tensão vem justamente da tentativa dele equilibrar a vida dupla de parecer humano/socialmente normal enquanto esconde quem realmente é.\n\nPara mim, é nota 10.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/0a/02/e3/0a02e3e0585b539b39a73a65b07bc317.jpg",
+          "width": 200
+        },
+        {
+          "type": "gif",
+          "url": "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2Jxc2o2amxuajlteHNrMXZjMzV5YnRwejF4MThub3ZuNDB0OTlhZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/21VTFJTEr1x9ortvO3/giphy.gif",
+          "width": 316
+        }
+      ]
+    },
+    {
+      "id": "fmoyehiqq",
+      "date": "2026-05-09T13:44",
+      "title": "The Big Bang Theory",
+      "content": "Realmente é uma das melhores séries de comédia que eu já assisti. Não tenho muito o que falar, apenas agradecer por sempre ter episódios incríveis para assistir enquanto almoço. Acompanhar esses cientistas é uma das melhores coisas que alguém pode fazer em dias de tédio.\n\nEu também dou nota 10. Na verdade, nem sei dar nota baixa, porque gosto muito dessas séries que a maioria das pessoas julga serem chatas. Mas fazer o quê? Eu sou nerd e chato mesmo.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/1200x/a8/95/09/a8950906f4c929310d2f2884ec1b9001.jpg",
+          "width": 200
+        },
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/58/73/3e/58733ef277e4349224d4b01e2805997f.jpg",
+          "width": 424
+        }
+      ]
+    },
+    {
+      "id": "fmoyebmtz",
+      "date": "2026-05-09T13:35",
+      "title": "House",
+      "content": "Essa série é simplesmente incrível. A trama, no fundo, é até simples: chega um paciente com uma doença desconhecida, e House, junto de sua equipe, tenta descobrir o que está acontecendo enquanto o doutor, viciado em Vicodin, utiliza métodos completamente arriscados, antiéticos e muitas vezes absurdos para salvar o paciente.\n\nPorém, por trás dessa comédia leve e das situações absurdas, uma história muito maior vai se construindo, mostrando como alguém genial pode acabar decaindo e perdendo tudo por causa do próprio orgulho, ego e vício em drogas.\n\nNão tem muito o que falar: as notas da série são ótimas e, quando eu recomendo, sempre mando umas cenas completamente absurdas, como o House abrindo uma expansão de domínio, pilotando um caminhão-monstro ou atirando em zumbis, justamente para mostrar o quão imprevisível e surpreendente a série consegue ser.\n\nPara mim, é nota 10.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/1200x/fe/94/70/fe9470e1deb66174071a3454be4d112a.jpg",
+          "width": 220
+        },
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/1200x/8a/a9/54/8aa9540a418b3eb6dfdacb6b0f4833d7.jpg",
+          "width": 361
+        },
+        {
+          "type": "gif",
+          "url": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXZoaDJnbTN1ZHh4Z253aXp4MG1veDNpb3NzaTljbDducnNzdml1ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/t4JyMssal3qKYJEQIf/giphy.gif",
+          "width": 318
+        }
+      ]
+    },
+    {
+      "id": "fmoydvur8",
+      "date": "2026-05-09T13:18",
+      "title": "O Mentalista",
+      "content": "Sendo sincero, gostei desde a primeira vez que assisti. Acompanhar a premissa de Patrick Jane atrás de um serial killer enquanto resolve vários outros casos de maneiras criativas, entrando na mente das pessoas através de detalhes sutis, é muito interessante. A série tem um humor natural, nada forçado, e a trama é muito bem construída.\n\nÉ daquelas séries de investigação que você assiste enquanto almoça, acompanhando o trabalho do CBI ao lado de um consultor extremamente inteligente e manipulador, disposto a buscar vingança a qualquer custo.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/f0/19/da/f019dae4cbc2c906ae6241dca0588ac3.jpg",
+          "width": 223
+        },
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/d5/34/78/d53478173002b06b768b9ec886e38efe.jpg",
+          "width": 152
+        }
+      ]
+    },
     {
       "id": "f1",
       "date": "2026-05-03T13:46",
