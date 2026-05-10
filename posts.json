@@ -1,6 +1,24 @@
 {
   "diario": [
     {
+      "id": "dmp0b37wv",
+      "date": "2026-05-10T21:38",
+      "title": "Mais um domingo a noite...",
+      "content": "Bom, não estou nas minhas melhores faculdades mentais. Fiquei jogando Cyberpunk, fazendo todas as missões da polícia para limpar aquela cidade de todo o mal e, inevitavelmente, acabei percebendo que me tornei o único mal que ainda habita nela.\n\nHoje tirei um tempo para responder algumas pessoas. Não todas, mas algumas, já que tive 1% a mais de coragem. Também fiquei me indagando sobre tudo na vida: assexualidade, o sentido da existência, a humanidade e até sobre o que eu quero para o futuro.\n\nE cheguei à conclusão de que eu quero ser uma pessoa melhor, alguém que faça o que precisa ser feito independentemente das adversidades. Se o meu futuro for acordar cedo e ser peão, que seja. Não estou roubando nem tirando nada de ninguém.\n\nE espero que, no futuro, eu encontre alguém que consiga me encontrar no meio dessa confusão que eu sou. Acho que é só isso que eu desejo. Não quero que tudo termine em mim. Quero passar algo adiante. Não quero ter que fazer a mim mesmo feliz o tempo todo; quero encontrar pessoas que eu possa fazer felizes e, nesse processo, me tornar alguém feliz também.\n\nIsso faz sentido? Eu não sei.\n\nMas a única coisa que eu sei é que Bring Me the Horizon é uma das melhores bandas que eu já escutei e foda-se os erros de português. Eu não me formei em letras, nem em frases. Na verdade, eu nem me formei.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/89/16/ab/8916abefdbe6750987ea669d5b01cd45.jpg",
+          "width": 200
+        },
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/bf/f1/41/bff14109f192c385e2fed2dd2d25ea80.jpg",
+          "width": 213
+        }
+      ]
+    },
+    {
       "id": "dmoxgf8xr",
       "date": "2026-05-08T21:27",
       "title": "Não postei nada ontem pois tive um breakdown",
@@ -407,8 +425,8 @@
     }
   ],
   "daily": {
-    "url": "https://i.pinimg.com/736x/9a/eb/35/9aeb35c1ff85e32608ed7a56c9548b70.jpg",
-    "caption": "Passamos a vida pensando no amor como algo romântico, e na verdade estamos rodeados de amor em todas as suas formas."
+    "url": "https://i.pinimg.com/736x/d2/5a/10/d25a10c9de1c7e17f15facf9393a100a.jpg",
+    "caption": "Ei, Saturno, deixa eu gritar No seu ouvido e reclamar Perguntar: Por que comigo? Por que comigo?"
   },
   "troll": {
     "enabled": true,
