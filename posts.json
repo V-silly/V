@@ -1,6 +1,19 @@
 {
   "diario": [
     {
+      "id": "dmp1pikpq",
+      "date": "2026-05-11T21:20",
+      "title": "Desisto",
+      "content": "cansado demais para falar.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/bc/97/8c/bc978c0708e0e34f67f56b6fdc28c93a.jpg",
+          "width": 200
+        }
+      ]
+    },
+    {
       "id": "dmp0b37wv",
       "date": "2026-05-10T21:38",
       "title": "Mais um domingo a noite...",
