@@ -1,6 +1,19 @@
 {
   "diario": [
     {
+      "id": "dmp4k1xb4",
+      "date": "2026-05-13T21:10",
+      "title": "Evil Larry",
+      "content": "Conversar com as pessoas me faz bem definitivamente.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/0b/a4/a4/0ba4a4966cfcdbd03d48ab73bfc68c7c.jpg",
+          "width": 200
+        }
+      ]
+    },
+    {
       "id": "dmp1pikpq",
       "date": "2026-05-11T21:20",
       "title": "Desisto",
@@ -438,8 +451,8 @@
     }
   ],
   "daily": {
-    "url": "https://i.pinimg.com/736x/21/69/cb/2169cb70d739f2d708e5a9e7011cac29.jpg",
-    "caption": "Gato fudido lascado, que engraçado KKKKK ele nem bote tomar café e nem tem como ele ter olheiras engraçado ahahahha"
+    "url": "https://i.pinimg.com/736x/d6/83/e1/d683e1d14339eae4dc769de2b8cbee18.jpg",
+    "caption": "Meus dois lados"
   },
   "troll": {
     "enabled": true,
