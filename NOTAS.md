@@ -1,19 +1,7 @@
 # V OS — Guia de Referência
 
-## Estrutura de Arquivos
 
-```
-projeto/
-├── index.html        ← estrutura do site
-├── style.css         ← visual e animações
-├── script.js         ← lógica e efeitos
-└── assets/
-    └── sounds/
-        ├── virtual_vibes-glitch-sound-effect-hd-379466_[cut_1sec].mp3
-        └── humanstudioedm-cyberpunk-techno-510219 (1).mp3
-```
-
----
+# DESATUALIZADO ALGUMAS COISAS
 
 ## Publicar no GitHub Pages
 
