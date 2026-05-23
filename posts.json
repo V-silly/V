@@ -1,6 +1,19 @@
 {
   "diario": [
     {
+      "id": "dmpiqd7n6",
+      "date": "2026-05-23T18:54",
+      "title": "Resumo da semana",
+      "content": "Essa semana foi igual às outras, com a diferença do encontro com os fantasmas do passado e de uma breve discussão que tive no trabalho, onde falei tudo o que pensava. Sendo sincero com quem vier a ler isso, aquele lugar é exaustivo demais. O trabalho em si é bom e tem um salário decente, mas as pessoas de lá sugam sua alma aos poucos. Eu nunca fui uma pessoa estressada ou revoltada, mas só de pisar lá me torno a pior versão de mim mesmo. Não sei quanto tempo ainda vou durar naquele lugar, mas espero que não muito.\n\nPor outro lado, falar tudo o que te incomoda e pensa é realmente libertador. Foi como se um peso tivesse saído da minha cabeça e, pela primeira vez, consegui sair cedo na sexta e até pegar um lugarzinho no ônibus.\n\nComi sopa hoje também. Fazia muito tempo que eu não comia, ainda mais nesse frio. Platinei Cyberpunk também e comecei a desenhar algumas coisas em um caderninho que ganhei de uma colega do trabalho, já que eu vivia desenhando na mesa toda hora.\n\nTambém preciso conhecer mais pessoas aqui em SP, principalmente gente que goste das mesmas coisas. O problema é conhecer alguém ou até conseguir me abrir de verdade com as pessoas. Mas acho que, em algum momento da minha vida, vou acabar me tornando um adulto funcional.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/53/bc/d7/53bcd76734e9449960abc12820bd2565.jpg",
+          "width": 200
+        }
+      ]
+    },
+    {
       "id": "dmp83ur5y",
       "date": "2026-05-16T08:47",
       "title": "Gripei",
@@ -492,8 +505,8 @@
     }
   ],
   "daily": {
-    "url": "https://i.pinimg.com/736x/30/02/dc/3002dca40cadf24fb03292aa98381a5d.jpg",
-    "caption": "0_0"
+    "url": "https://i.pinimg.com/736x/a1/a3/c6/a1a3c6283a33d5978f8755a10860b466.jpg",
+    "caption": "pastel"
   },
   "troll": {
     "enabled": true,
