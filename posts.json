@@ -1,6 +1,19 @@
 {
   "diario": [
     {
+      "id": "dmpon4cza",
+      "date": "2026-05-27T22:28",
+      "title": "Pse",
+      "content": "Não tenho mais nada a dizer, nem nada a compartilhar. Tudo o que precisava ser dito já foi. Minha vida é chata demais para ter algo novo para falar todos os dias, e, no fim, quase tudo sempre gira em torno de problemas. Então acho que é isso. Não há muito mais a acrescentar.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/736x/5d/f1/93/5df19341dc6cdb9b31f387441dcd2437.jpg",
+          "width": 200
+        }
+      ]
+    },
+    {
       "id": "dmpiqd7n6",
       "date": "2026-05-23T18:54",
       "title": "Resumo da semana",
@@ -505,8 +518,8 @@
     }
   ],
   "daily": {
-    "url": "https://i.pinimg.com/736x/a1/a3/c6/a1a3c6283a33d5978f8755a10860b466.jpg",
-    "caption": "pastel"
+    "url": "https://i.pinimg.com/736x/51/2b/cb/512bcbc1a70bd3419786ef65d7af9dce.jpg",
+    "caption": "........."
   },
   "troll": {
     "enabled": true,
