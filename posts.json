@@ -1,6 +1,19 @@
 {
   "diario": [
     {
+      "id": "dmpsacg7t",
+      "date": "2026-05-30T11:44",
+      "title": "CARA QUE FODA",
+      "content": "Joguei uma sessão de ordem ontem e foi do caralho, definitivamente uma das melhores mesas que ja joguei, foi tudo perfeito e incrivel. Deu até para esquecer os b.o chatos do trabalho e curtir um pouco.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://i.pinimg.com/1200x/be/c6/8c/bec68cae27eef76801b973aa79917211.jpg",
+          "width": 200
+        }
+      ]
+    },
+    {
       "id": "dmpon4cza",
       "date": "2026-05-27T22:28",
       "title": "Pse",
@@ -518,8 +531,8 @@
     }
   ],
   "daily": {
-    "url": "https://i.pinimg.com/736x/51/2b/cb/512bcbc1a70bd3419786ef65d7af9dce.jpg",
-    "caption": "........."
+    "url": "https://i.pinimg.com/736x/68/ab/9c/68ab9cd7c6919a29a899c55a564c17f6.jpg",
+    "caption": "Eis que leto"
   },
   "troll": {
     "enabled": true,
